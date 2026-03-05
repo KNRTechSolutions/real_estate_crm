@@ -1,0 +1,2122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>JR Housing — Enterprise CRM</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Mono:wght@400;500&family=Syne:wght@700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#f0f2f5;--s:#0f1923;--s2:#162030;--s3:#1c2a3a;
+  --surf:#fff;--surf2:#f8fafc;--b:#e2e8f2;--b2:#cbd5e4;
+  --t:#0d1b2a;--t2:#4a5a6e;--mu:#8a9ab0;
+  --gold:#c8973a;--gold2:#e8b84b;--gold3:rgba(200,151,58,.12);
+  --blu:#2563eb;--blu2:rgba(37,99,235,.1);
+  --grn:#16a34a;--grn2:rgba(22,163,74,.1);
+  --red:#dc2626;--red2:rgba(220,38,38,.1);
+  --orn:#ea580c;--orn2:rgba(234,88,12,.1);
+  --prp:#7c3aed;--prp2:rgba(124,58,237,.1);
+  --sh:0 1px 4px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.05);
+  --sh2:0 4px 16px rgba(0,0,0,.09);
+  --sh3:0 20px 48px rgba(0,0,0,.16);
+  --r:14px;--r2:10px;--r3:8px;
+  --sw:268px;--th:60px;
+  --f:'DM Sans',system-ui,sans-serif;
+  --fm:'DM Mono',monospace;
+  --fd:'Syne',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);font-family:var(--f);font-size:13.5px;color:var(--t);overflow:hidden}
+button,input,select,textarea{font-family:var(--f)}
+a{text-decoration:none;color:inherit}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#c4cdd8;border-radius:10px}
+
+/* ─── SHELL ─── */
+.shell{display:flex;height:100vh;overflow:hidden}
+
+/* ─── SIDEBAR ─── */
+.sb{
+  width:var(--sw);flex-shrink:0;
+  background:var(--s);
+  display:flex;flex-direction:column;height:100vh;
+  position:relative;z-index:60;
+  border-right:1px solid rgba(255,255,255,.04);
+}
+.sb-logo{
+  padding:18px 18px 14px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  display:flex;align-items:center;gap:11px;
+}
+.logo-gem{
+  width:38px;height:38px;border-radius:11px;flex-shrink:0;
+  background:linear-gradient(145deg,var(--gold),var(--gold2));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fd);font-size:1.05rem;font-weight:900;color:#fff;
+  box-shadow:0 4px 14px rgba(200,151,58,.4);
+  letter-spacing:-.5px;
+}
+.logo-words strong{display:block;font-family:var(--fd);font-size:.9rem;font-weight:800;color:#fff;letter-spacing:-.2px;line-height:1.2}
+.logo-words em{display:block;font-style:normal;font-size:.6rem;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase}
+
+.sb-scroll{flex:1;overflow-y:auto;padding:10px 0 6px}
+.sb-scroll::-webkit-scrollbar{width:0}
+
+.nav-grp{margin-bottom:2px}
+.nav-grp-label{
+  font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,.2);padding:12px 18px 5px;
+}
+.ni{
+  display:flex;align-items:center;gap:9px;
+  padding:8px 10px 8px 14px;margin:1px 8px;
+  border-radius:9px;
+  color:rgba(255,255,255,.48);font-size:.8rem;font-weight:500;
+  cursor:pointer;transition:all .15s;position:relative;
+  user-select:none;
+}
+.ni:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.8)}
+.ni.active{background:rgba(200,151,58,.16);color:var(--gold2);font-weight:600}
+.ni.active::before{
+  content:'';position:absolute;left:-8px;top:50%;transform:translateY(-50%);
+  width:3px;height:18px;background:var(--gold);border-radius:0 4px 4px 0;
+}
+.ni-ic{font-size:.95rem;width:18px;text-align:center;flex-shrink:0;opacity:.85}
+.ni-lbl{flex:1}
+.ni-badge{
+  font-size:.6rem;font-weight:800;padding:2px 7px;border-radius:20px;
+  min-width:20px;text-align:center;line-height:1.4;
+}
+.nb-red{background:var(--red);color:#fff}
+.nb-gold{background:var(--gold);color:#fff}
+.nb-blue{background:var(--blu);color:#fff}
+
+.sb-foot{
+  padding:12px 14px;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.sb-user{
+  display:flex;align-items:center;gap:9px;padding:8px 6px;
+  border-radius:9px;cursor:pointer;transition:.15s;
+}
+.sb-user:hover{background:rgba(255,255,255,.05)}
+.ua{
+  width:33px;height:33px;border-radius:9px;flex-shrink:0;
+  background:linear-gradient(145deg,var(--gold),#d48228);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:800;color:#fff;
+}
+.ui strong{display:block;font-size:.76rem;font-weight:700;color:#fff}
+.ui span{font-size:.62rem;color:rgba(255,255,255,.36)}
+
+/* ─── MAIN ─── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+
+/* ─── TOPBAR ─── */
+.tb{
+  height:var(--th);background:var(--surf);
+  border-bottom:1px solid var(--b);
+  display:flex;align-items:center;padding:0 22px;gap:14px;
+  flex-shrink:0;
+}
+.tb-left{display:flex;flex-direction:column;min-width:0}
+.tb-title{font-family:var(--fd);font-size:.95rem;font-weight:800;color:var(--t);letter-spacing:-.3px;line-height:1.2}
+.tb-bc{font-size:.68rem;color:var(--mu);margin-top:1px}
+.tb-search{
+  flex:1;max-width:320px;margin-left:auto;
+  display:flex;align-items:center;gap:7px;
+  background:var(--bg);border:1px solid var(--b);
+  border-radius:8px;padding:7px 12px;
+  transition:.2s;
+}
+.tb-search:focus-within{border-color:var(--gold);background:#fff;box-shadow:0 0 0 3px var(--gold3)}
+.tb-search input{border:none;background:transparent;outline:none;font-size:.78rem;color:var(--t);width:100%}
+.tb-search input::placeholder{color:var(--mu)}
+.tb-acts{display:flex;align-items:center;gap:6px}
+.ib{
+  width:34px;height:34px;border-radius:8px;
+  background:var(--bg);border:1px solid var(--b);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;cursor:pointer;transition:.15s;position:relative;
+}
+.ib:hover{border-color:var(--gold);background:var(--gold3)}
+.ndot{
+  position:absolute;top:5px;right:5px;
+  width:7px;height:7px;border-radius:50%;
+  background:var(--red);border:2px solid var(--surf);
+}
+.tb-user{display:flex;align-items:center;gap:7px;padding:5px 9px;border-radius:8px;cursor:pointer}
+.tb-user:hover{background:var(--bg)}
+.tua{
+  width:30px;height:30px;border-radius:8px;
+  background:linear-gradient(145deg,var(--gold),#d48228);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.65rem;font-weight:800;color:#fff;
+}
+.tb-user span{font-size:.76rem;font-weight:600}
+
+/* ─── CONTENT ─── */
+.pg-wrap{flex:1;overflow-y:auto;padding:22px}
+.pg{display:none}
+.pg.on{display:block}
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;gap:14px;flex-wrap:wrap}
+.ph-l h2{font-family:var(--fd);font-size:1.35rem;font-weight:800;color:var(--t);letter-spacing:-.4px}
+.ph-l p{font-size:.76rem;color:var(--mu);margin-top:3px}
+.ph-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+/* ─── BUTTONS ─── */
+.btn{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:8px 15px;border-radius:8px;
+  font-size:.76rem;font-weight:700;border:none;
+  cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.btn-p{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;box-shadow:0 3px 10px rgba(200,151,58,.3)}
+.btn-p:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.btn-s{background:var(--surf);color:var(--t2);border:1px solid var(--b)}
+.btn-s:hover{border-color:var(--gold);color:var(--gold)}
+.btn-d{background:var(--red2);color:var(--red);border:1px solid rgba(220,38,38,.2)}
+.btn-d:hover{background:var(--red);color:#fff}
+.btn-g{background:transparent;color:var(--t2);border:1px solid transparent;padding:7px 11px}
+.btn-g:hover{background:var(--bg);border-color:var(--b)}
+.btn-sm{padding:6px 11px;font-size:.72rem}
+.btn-xs{padding:4px 8px;font-size:.68rem}
+
+/* ─── CARDS ─── */
+.card{background:var(--surf);border:1px solid var(--b);border-radius:var(--r);overflow:hidden}
+.card-h{
+  padding:14px 18px;border-bottom:1px solid var(--b);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.card-h h3{font-size:.84rem;font-weight:700;color:var(--t)}
+.card-b{padding:18px}
+
+/* ─── KPI CARDS ─── */
+.kpi-row{display:grid;gap:14px;margin-bottom:18px}
+.kpi-4{grid-template-columns:repeat(4,1fr)}
+.kpi-3{grid-template-columns:repeat(3,1fr)}
+.kpi{
+  background:var(--surf);border:1px solid var(--b);
+  border-radius:var(--r);padding:18px;position:relative;overflow:hidden;
+}
+.kpi::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+}
+.kpi.c-gold::after{background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.kpi.c-blue::after{background:linear-gradient(90deg,#3b82f6,#60a5fa)}
+.kpi.c-green::after{background:linear-gradient(90deg,var(--grn),#4ade80)}
+.kpi.c-red::after{background:linear-gradient(90deg,var(--red),#f87171)}
+.kpi.c-purple::after{background:linear-gradient(90deg,var(--prp),#a78bfa)}
+.kpi.c-orange::after{background:linear-gradient(90deg,var(--orn),#fb923c)}
+.kpi-icon{
+  position:absolute;right:14px;top:16px;
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+}
+.kpi-lbl{font-size:.67rem;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:1.1px}
+.kpi-val{font-size:1.85rem;font-weight:800;color:var(--t);line-height:1;margin:7px 0 4px;font-family:var(--fd)}
+.kpi-sub{font-size:.68rem;color:var(--mu);display:flex;align-items:center;gap:4px}
+.up{color:var(--grn);font-weight:700}.dn{color:var(--red);font-weight:700}
+
+/* ─── TABLE ─── */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead th{
+  text-align:left;font-size:.65rem;font-weight:700;
+  color:var(--mu);text-transform:uppercase;letter-spacing:1.1px;
+  padding:9px 13px;background:var(--surf2);
+  border-bottom:1px solid var(--b);white-space:nowrap;
+  position:sticky;top:0;z-index:1;
+}
+tbody td{
+  padding:11px 13px;border-bottom:1px solid var(--b);
+  font-size:.78rem;color:var(--t2);vertical-align:middle;
+}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:var(--surf2);cursor:pointer}
+
+/* ─── BADGES ─── */
+.bdg{
+  display:inline-flex;align-items:center;gap:3px;
+  padding:2px 9px;border-radius:100px;font-size:.64rem;font-weight:700;
+  white-space:nowrap;
+}
+.bdg::before{content:'●';font-size:.42rem;vertical-align:middle}
+.bg-gold{background:var(--gold3);color:#7a5a14;border:1px solid rgba(200,151,58,.25)}
+.bg-blue{background:var(--blu2);color:#1e40af;border:1px solid rgba(37,99,235,.2)}
+.bg-green{background:var(--grn2);color:#15803d;border:1px solid rgba(22,163,74,.2)}
+.bg-red{background:var(--red2);color:#b91c1c;border:1px solid rgba(220,38,38,.2)}
+.bg-purple{background:var(--prp2);color:#6d28d9;border:1px solid rgba(124,58,237,.2)}
+.bg-orange{background:var(--orn2);color:#c2410c;border:1px solid rgba(234,88,12,.2)}
+.bg-grey{background:#f1f5f9;color:var(--t2);border:1px solid var(--b)}
+
+/* ─── FORMS ─── */
+.fg{display:flex;flex-direction:column;gap:4px}
+.fl{font-size:.72rem;font-weight:600;color:var(--t2)}
+.fi,.fs,.fta{
+  width:100%;padding:8px 11px;
+  border:1px solid var(--b2);border-radius:8px;
+  font-size:.78rem;color:var(--t);background:var(--surf);outline:none;
+  font-family:var(--f);transition:.15s;
+}
+.fi:focus,.fs:focus,.fta:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold3)}
+.fta{resize:vertical;min-height:72px}
+.fr{display:grid;gap:13px}
+.fr2{grid-template-columns:1fr 1fr}
+.fr3{grid-template-columns:1fr 1fr 1fr}
+
+/* ─── MODAL ─── */
+.mb{
+  display:none;position:fixed;inset:0;z-index:200;
+  background:rgba(13,27,42,.55);backdrop-filter:blur(5px);
+  align-items:flex-start;justify-content:center;
+  padding:50px 16px 40px;overflow-y:auto;
+}
+.mb.on{display:flex}
+.mo{
+  background:var(--surf);border-radius:18px;
+  width:100%;max-width:620px;
+  box-shadow:var(--sh3);
+  animation:moIn .22s ease;margin-bottom:30px;
+}
+.mo-lg{max-width:820px}
+.mo-xl{max-width:1060px}
+@keyframes moIn{from{opacity:0;transform:translateY(-14px) scale(.98)}to{opacity:1;transform:none}}
+.mo-h{
+  padding:18px 22px 16px;border-bottom:1px solid var(--b);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.mo-h h3{font-family:var(--fd);font-size:.95rem;font-weight:800;color:var(--t)}
+.mo-x{
+  width:30px;height:30px;border-radius:8px;
+  background:var(--bg);border:1px solid var(--b);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:.9rem;transition:.15s;
+}
+.mo-x:hover{background:var(--red2);border-color:var(--red);color:var(--red)}
+.mo-b{padding:20px 22px}
+.mo-f{
+  padding:14px 22px;border-top:1px solid var(--b);
+  display:flex;align-items:center;justify-content:flex-end;gap:8px;
+}
+
+/* ─── TABS ─── */
+.tabs{display:flex;gap:2px;background:var(--bg);border-radius:10px;padding:3px;width:fit-content;margin-bottom:18px}
+.tab{padding:6px 14px;border-radius:8px;font-size:.74rem;font-weight:600;color:var(--mu);cursor:pointer;transition:.15s;white-space:nowrap}
+.tab.on{background:var(--surf);color:var(--gold);box-shadow:var(--sh)}
+
+/* ─── PIPELINE ─── */
+.pipe-board{display:flex;gap:14px;overflow-x:auto;padding-bottom:10px;min-height:calc(100vh - 195px)}
+.pipe-col{min-width:228px;max-width:228px;background:var(--bg);border-radius:var(--r);border:1px solid var(--b);display:flex;flex-direction:column}
+.pipe-col-h{padding:11px 13px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between}
+.pipe-col-h span{font-size:.74rem;font-weight:700}
+.pipe-cnt{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:800}
+.pipe-cards{flex:1;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:7px}
+.kc{
+  background:var(--surf);border:1px solid var(--b);border-radius:10px;
+  padding:11px;cursor:pointer;transition:all .15s;
+}
+.kc:hover{border-color:var(--gold);box-shadow:var(--sh2);transform:translateY(-2px)}
+.kc-nm{font-size:.77rem;font-weight:700;color:var(--t);margin-bottom:3px}
+.kc-pj{font-size:.65rem;color:var(--gold);font-weight:600}
+.kc-ft{display:flex;align-items:center;justify-content:space-between;margin-top:7px}
+.kc-v{font-size:.68rem;font-weight:700;color:var(--grn);font-family:var(--fm)}
+.kc-s{font-size:.62rem;color:var(--mu)}
+.kc-av{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--gold),#d07820);display:flex;align-items:center;justify-content:center;font-size:.54rem;font-weight:800;color:#fff}
+
+/* ─── TIMELINE ─── */
+.tl{display:flex;flex-direction:column}
+.tl-it{display:flex;gap:10px;padding:9px 0;position:relative}
+.tl-it:not(:last-child)::before{content:'';position:absolute;left:14px;top:32px;bottom:0;width:1px;background:var(--b)}
+.tl-dot{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.72rem;border:2px solid var(--b);background:var(--surf);z-index:1}
+.tl-body{flex:1;padding-top:2px}
+.tl-txt{font-size:.76rem;color:var(--t2);line-height:1.55}
+.tl-txt strong{color:var(--t);font-weight:600}
+.tl-time{font-size:.64rem;color:var(--mu);margin-top:2px;font-family:var(--fm)}
+
+/* ─── NOTIFICATION PANEL ─── */
+.np-back{display:none;position:fixed;inset:0;z-index:140;background:rgba(13,27,42,.2)}
+.np-back.on{display:block}
+.np{position:fixed;right:-350px;top:var(--th);bottom:0;width:330px;background:var(--surf);border-left:1px solid var(--b);z-index:150;transition:.28s ease;overflow-y:auto}
+.np.on{right:0;box-shadow:var(--sh3)}
+.np-h{padding:14px 18px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surf);z-index:2}
+.np-h h4{font-family:var(--fd);font-size:.86rem;font-weight:800}
+.np-it{padding:13px 18px;border-bottom:1px solid var(--b);cursor:pointer;transition:.13s}
+.np-it:hover{background:var(--bg)}
+.np-it.unr{background:#fffbf2;border-left:3px solid var(--gold)}
+.np-it.unr:hover{background:#fff8ea}
+.ni-t{font-size:.78rem;font-weight:700;color:var(--t);margin-bottom:2px}
+.ni-d{font-size:.7rem;color:var(--mu);line-height:1.5}
+.ni-ts{font-size:.62rem;color:var(--mu);margin-top:3px;font-family:var(--fm)}
+
+/* ─── CALENDAR ─── */
+.cal-hdr{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:3px}
+.cal-dn{text-align:center;font-size:.6rem;font-weight:700;color:var(--mu);text-transform:uppercase;padding:3px 0}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-d{
+  aspect-ratio:1;border-radius:7px;border:1px solid var(--b);
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  padding:3px;cursor:pointer;transition:.13s;font-size:.68rem;font-weight:600;color:var(--t2);
+}
+.cal-d:hover{border-color:var(--gold);background:var(--gold3)}
+.cal-d.tod{background:var(--gold);color:#fff;border-color:var(--gold);font-weight:800}
+.cal-d.has::after{content:'';width:4px;height:4px;border-radius:50%;background:var(--blu);margin-top:1px}
+.cal-d.om{opacity:.3}
+
+/* ─── PROGRESS BAR ─── */
+.pb{height:5px;background:var(--b);border-radius:100px;overflow:hidden}
+.pb-f{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:.4s}
+.pb-grn .pb-f{background:linear-gradient(90deg,var(--grn),#4ade80)}
+.pb-blu .pb-f{background:linear-gradient(90deg,var(--blu),#60a5fa)}
+
+/* ─── GRID LAYOUTS ─── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.g21{display:grid;grid-template-columns:2fr 1fr;gap:14px}
+.g12{display:grid;grid-template-columns:1fr 2fr;gap:14px}
+
+/* ─── REVENUE CHART ─── */
+.rev-chart{display:flex;align-items:flex-end;gap:5px;height:140px;padding-top:10px}
+.rc-bar{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1}
+.rc-fill{width:100%;border-radius:5px 5px 0 0;transition:.5s;min-height:3px}
+.rc-coll{background:linear-gradient(180deg,var(--grn),#4ade80)}
+.rc-pend{background:linear-gradient(180deg,var(--orn),#fb923c)}
+.rc-lbl{font-size:.56rem;color:var(--mu);font-family:var(--fm);white-space:nowrap}
+
+/* ─── DONUT RING ─── */
+.donut{
+  width:110px;height:110px;border-radius:50%;flex-shrink:0;
+  background:conic-gradient(var(--gold) 0% 35%,var(--blu) 35% 60%,var(--grn) 60% 78%,var(--b) 78%);
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.donut::after{content:'';position:absolute;width:66px;height:66px;border-radius:50%;background:var(--surf)}
+
+/* ─── SPARKLINE ─── */
+.spark{display:flex;align-items:flex-end;gap:2px;height:26px}
+.spk{width:5px;border-radius:2px;background:rgba(200,151,58,.25)}
+.spk.hi{background:var(--gold)}
+
+/* ─── FILTER BAR ─── */
+.fb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 0}
+.fs2{
+  padding:6px 11px;border:1px solid var(--b);border-radius:8px;
+  font-size:.74rem;color:var(--t2);background:var(--surf);outline:none;cursor:pointer;font-family:var(--f);
+}
+.fs2:focus{border-color:var(--gold)}
+.si{
+  padding:6px 11px;border:1px solid var(--b);border-radius:8px;
+  font-size:.74rem;background:var(--surf);outline:none;font-family:var(--f);color:var(--t);min-width:200px;
+}
+.si:focus{border-color:var(--gold)}
+
+/* ─── SITE VISIT CARD ─── */
+.sv{display:flex;align-items:flex-start;gap:11px;padding:12px;border:1px solid var(--b);border-radius:var(--r2);background:var(--surf);transition:.15s}
+.sv:hover{border-color:var(--gold);background:#fffdf8}
+.sv-dt{min-width:48px;text-align:center;background:var(--gold3);border:1px solid rgba(200,151,58,.2);border-radius:8px;padding:7px 4px}
+.sv-dd{font-size:1.35rem;font-weight:800;color:var(--gold);line-height:1;font-family:var(--fd)}
+.sv-dm{font-size:.56rem;font-weight:700;text-transform:uppercase;color:var(--gold);letter-spacing:.5px}
+
+/* ─── INVENTORY GRID ─── */
+.inv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:5px}
+.inv-cell{
+  aspect-ratio:1;border-radius:7px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.5rem;font-weight:800;color:#fff;
+  transition:all .15s;opacity:.78;
+}
+.inv-cell:hover{opacity:1;transform:scale(1.1);z-index:2;box-shadow:var(--sh2)}
+.inv-av{background:var(--grn)}
+.inv-bk{background:var(--gold)}
+.inv-sl{background:var(--red)}
+
+/* ─── TOAST ─── */
+.tw2{position:fixed;bottom:22px;right:22px;z-index:999;display:flex;flex-direction:column;gap:7px}
+.toast{
+  background:var(--surf);border:1px solid var(--b);border-radius:11px;
+  padding:11px 15px;box-shadow:var(--sh3);
+  display:flex;align-items:center;gap:9px;min-width:270px;
+  animation:tin .22s ease;font-size:.78rem;
+}
+@keyframes tin{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+.t-ic.succ{color:var(--grn)}.t-ic.err{color:var(--red)}.t-ic.info{color:var(--blu)}
+
+/* ─── INFO ROWS ─── */
+.ir{display:flex;align-items:flex-start;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--b)}
+.ir:last-child{border-bottom:none}
+.ik{font-size:.7rem;color:var(--mu);font-weight:500}
+.iv{font-size:.76rem;color:var(--t);font-weight:600;text-align:right;max-width:58%}
+
+/* ─── LEGEND ─── */
+.leg{display:flex;align-items:center;gap:5px;font-size:.7rem;color:var(--t2)}
+.leg-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0}
+
+/* ─── PROJECT CARD ─── */
+.pj-card{background:var(--surf);border:1px solid var(--b);border-radius:var(--r);overflow:hidden;transition:.2s;cursor:pointer}
+.pj-card:hover{border-color:var(--gold);box-shadow:var(--sh2)}
+.pj-banner{background:linear-gradient(145deg,#0f1923,#1a3050);padding:22px 18px;position:relative;overflow:hidden}
+.pj-banner::before{content:'';position:absolute;right:-30px;top:-30px;width:130px;height:130px;border-radius:50%;background:rgba(200,151,58,.07);pointer-events:none}
+.pj-type{font-family:var(--fm);font-size:.58rem;color:rgba(200,151,58,.7);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.pj-name{font-family:var(--fd);font-size:1rem;font-weight:800;color:#fff;margin-bottom:3px}
+.pj-loc{font-size:.68rem;color:rgba(255,255,255,.42)}
+
+/* ─── TEAM CARD ─── */
+.tm-card{background:var(--surf);border:1px solid var(--b);border-radius:var(--r);padding:22px 18px;text-align:center}
+.tm-av{width:60px;height:60px;border-radius:16px;background:linear-gradient(145deg,var(--gold),#d07820);display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:900;color:#fff;margin:0 auto 12px;box-shadow:0 6px 16px rgba(200,151,58,.3);font-family:var(--fd)}
+
+/* ─── FUNNEL ─── */
+.funnel-bar{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.funnel-lbl{font-size:.74rem;color:var(--t2);min-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.funnel-fill{height:22px;border-radius:4px;background:linear-gradient(90deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:flex-end;padding-right:8px;min-width:30px;transition:.5s}
+.funnel-n{font-size:.65rem;font-weight:800;color:#fff}
+
+/* ─── SCROLLBAR PIPE ─── */
+.pipe-board::-webkit-scrollbar{height:5px}
+.pipe-board::-webkit-scrollbar-track{background:var(--b)}
+.pipe-board::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+
+/* ─── ADD LEAD / FOLLOWUP HIGHLIGHT ROW ─── */
+.new-row td{background:#fffdf2!important;animation:rowFade 2s ease forwards}
+@keyframes rowFade{0%{background:#fff3cd!important}100%{background:#fffdf2!important}}
+
+/* ─── SETTINGS TOGGLE ─── */
+.stog{position:relative;display:inline-block;width:38px;height:20px;flex-shrink:0}
+.stog input{opacity:0;width:0;height:0}
+.stog-s{position:absolute;cursor:pointer;inset:0;background:var(--b2);border-radius:20px;transition:.3s}
+.stog input:checked + .stog-s{background:var(--grn)}
+.stog-s::before{content:'';position:absolute;height:14px;width:14px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+.stog input:checked + .stog-s::before{transform:translateX(18px)}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<aside class="sb">
+  <div class="sb-logo">
+    <div class="logo-gem">JR</div>
+    <div class="logo-words">
+      <strong>JR Housing</strong>
+      <em>Enterprise CRM</em>
+    </div>
+  </div>
+
+  <div class="sb-scroll">
+    <div class="nav-grp">
+      <div class="nav-grp-label">Overview</div>
+      <div class="ni active" onclick="nav('dashboard')"><span class="ni-ic">⬛</span><span class="ni-lbl">Dashboard</span></div>
+    </div>
+    <div class="nav-grp">
+      <div class="nav-grp-label">Sales Pipeline</div>
+      <div class="ni" onclick="nav('leads')"><span class="ni-ic">👥</span><span class="ni-lbl">All Leads</span><span class="ni-badge nb-red" id="nb-leads">0</span></div>
+      <div class="ni" onclick="nav('pipeline')"><span class="ni-ic">📊</span><span class="ni-lbl">Pipeline Kanban</span></div>
+      <div class="ni" onclick="nav('followups')"><span class="ni-ic">🔔</span><span class="ni-lbl">Follow-ups</span><span class="ni-badge nb-red" id="nb-fu">7</span></div>
+      <div class="ni" onclick="nav('sitevisits')"><span class="ni-ic">🏗️</span><span class="ni-lbl">Site Visits</span></div>
+      <div class="ni" onclick="nav('bookings')"><span class="ni-ic">📋</span><span class="ni-lbl">Bookings</span><span class="ni-badge nb-gold">3</span></div>
+    </div>
+    <div class="nav-grp">
+      <div class="nav-grp-label">Projects & Inventory</div>
+      <div class="ni" onclick="nav('projects')"><span class="ni-ic">🏢</span><span class="ni-lbl">Projects</span></div>
+      <div class="ni" onclick="nav('inventory')"><span class="ni-ic">🗺️</span><span class="ni-lbl">Plot Inventory</span></div>
+    </div>
+    <div class="nav-grp">
+      <div class="nav-grp-label">Finance</div>
+      <div class="ni" onclick="nav('payments')"><span class="ni-ic">💰</span><span class="ni-lbl">Payments</span></div>
+      <div class="ni" onclick="nav('reports')"><span class="ni-ic">📈</span><span class="ni-lbl">Analytics</span></div>
+    </div>
+    <div class="nav-grp">
+      <div class="nav-grp-label">Operations</div>
+      <div class="ni" onclick="nav('customers')"><span class="ni-ic">🏡</span><span class="ni-lbl">Customers</span></div>
+      <div class="ni" onclick="nav('campaigns')"><span class="ni-ic">📣</span><span class="ni-lbl">Campaigns</span></div>
+      <div class="ni" onclick="nav('team')"><span class="ni-ic">🧑‍💼</span><span class="ni-lbl">Team</span></div>
+      <div class="ni" onclick="nav('settings')"><span class="ni-ic">⚙️</span><span class="ni-lbl">Settings</span></div>
+    </div>
+  </div>
+
+  <div class="sb-foot">
+    <div class="sb-user">
+      <div class="ua">NR</div>
+      <div class="ui"><strong>Niranjan Reddy</strong><span>Director · CRM Admin</span></div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="tb">
+    <div class="tb-left">
+      <div class="tb-title" id="tb-title">Dashboard</div>
+      <div class="tb-bc" id="tb-bc">JR Housing · Overview</div>
+    </div>
+    <div class="tb-search">
+      <span style="color:var(--mu);font-size:.85rem">🔍</span>
+      <input type="text" placeholder="Search leads, customers, bookings…" oninput="gSearch(this.value)"/>
+    </div>
+    <div class="tb-acts">
+      <div class="ib" onclick="openM('mAddLead')" title="Quick Add Lead">➕</div>
+      <div class="ib" onclick="toggleNP()" title="Notifications">🔔<span class="ndot"></span></div>
+      <div class="tb-user">
+        <div class="tua">NR</div>
+        <span>Niranjan</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE WRAP -->
+  <div class="pg-wrap">
+
+    <!-- ══════════════════════════════
+         DASHBOARD
+    ══════════════════════════════ -->
+    <div class="pg on" id="pg-dashboard">
+      <div class="ph">
+        <div class="ph-l"><h2>Good Morning, Niranjan 👋</h2><p>Here's your live snapshot across all JR Housing projects — <span style="color:var(--gold);font-weight:700">March 2025</span></p></div>
+        <div class="ph-r">
+          <select class="fs2" onchange="toast('info','📊 Period updated')">
+            <option>This Month</option><option>This Quarter</option><option>This FY</option>
+          </select>
+          <button class="btn btn-p" onclick="openM('mAddLead')">➕ Add Lead</button>
+        </div>
+      </div>
+
+      <!-- KPIs Row 1 -->
+      <div class="kpi-row kpi-4">
+        <div class="kpi c-gold">
+          <div class="kpi-icon" style="background:var(--gold3)">💰</div>
+          <div class="kpi-lbl">Total Revenue (FY)</div>
+          <div class="kpi-val">₹14.2Cr</div>
+          <div class="kpi-sub"><span class="up">↑ 18%</span> vs last month</div>
+          <div class="spark" style="margin-top:10px">
+            <div class="spk" style="height:45%"></div><div class="spk" style="height:55%"></div>
+            <div class="spk" style="height:48%"></div><div class="spk" style="height:72%"></div>
+            <div class="spk" style="height:60%"></div><div class="spk hi" style="height:88%"></div>
+          </div>
+        </div>
+        <div class="kpi c-blue">
+          <div class="kpi-icon" style="background:var(--blu2)">👥</div>
+          <div class="kpi-lbl">Active Leads</div>
+          <div class="kpi-val" id="kpi-leads">148</div>
+          <div class="kpi-sub"><span class="up">↑ 24</span> new this week</div>
+        </div>
+        <div class="kpi c-green">
+          <div class="kpi-icon" style="background:var(--grn2)">✅</div>
+          <div class="kpi-lbl">Conversions (FY)</div>
+          <div class="kpi-val">32</div>
+          <div class="kpi-sub"><span class="up">21.6%</span> conv. rate</div>
+        </div>
+        <div class="kpi c-red">
+          <div class="kpi-icon" style="background:var(--red2)">⏰</div>
+          <div class="kpi-lbl">Overdue Follow-ups</div>
+          <div class="kpi-val">7</div>
+          <div class="kpi-sub"><span class="dn">↑ 3</span> from yesterday</div>
+        </div>
+      </div>
+
+      <!-- KPIs Row 2 -->
+      <div class="kpi-row kpi-4" style="margin-top:0">
+        <div class="kpi c-purple">
+          <div class="kpi-icon" style="background:var(--prp2)">🗓️</div>
+          <div class="kpi-lbl">Site Visits Today</div>
+          <div class="kpi-val">6</div>
+          <div class="kpi-sub">3 confirmed · 3 pending</div>
+        </div>
+        <div class="kpi c-orange">
+          <div class="kpi-icon" style="background:var(--orn2)">📋</div>
+          <div class="kpi-lbl">Pending Bookings</div>
+          <div class="kpi-val">3</div>
+          <div class="kpi-sub">₹3.8Cr pipeline value</div>
+        </div>
+        <div class="kpi c-gold">
+          <div class="kpi-icon" style="background:var(--gold3)">🏢</div>
+          <div class="kpi-lbl">Active Projects</div>
+          <div class="kpi-val">5</div>
+          <div class="kpi-sub">BLR · MYS · KNL</div>
+        </div>
+        <div class="kpi c-blue">
+          <div class="kpi-icon" style="background:var(--blu2)">📣</div>
+          <div class="kpi-lbl">Avg. CPL</div>
+          <div class="kpi-val">₹1,240</div>
+          <div class="kpi-sub"><span class="dn">↓ 8%</span> improvement</div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="g21" style="margin-bottom:14px">
+        <div class="card">
+          <div class="card-h">
+            <h3>📊 Monthly Collections — FY 2024-25</h3>
+            <div style="display:flex;gap:10px">
+              <div class="leg"><div class="leg-dot" style="background:var(--grn)"></div>Collected</div>
+              <div class="leg"><div class="leg-dot" style="background:var(--orn)"></div>Pending</div>
+            </div>
+          </div>
+          <div class="card-b">
+            <div class="rev-chart" id="revChart"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>🎯 Lead Sources</h3></div>
+          <div class="card-b">
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px">
+              <div class="donut"></div>
+              <div style="display:flex;flex-direction:column;gap:7px;flex:1">
+                <div class="leg"><div class="leg-dot" style="background:var(--gold)"></div>Digital Ads — 35%</div>
+                <div class="leg"><div class="leg-dot" style="background:var(--blu)"></div>Walk-in — 25%</div>
+                <div class="leg"><div class="leg-dot" style="background:var(--grn)"></div>Referral — 18%</div>
+                <div class="leg"><div class="leg-dot" style="background:var(--b)"></div>Other — 22%</div>
+              </div>
+            </div>
+            <div id="projLeads"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activity + Schedule -->
+      <div class="g2" style="margin-bottom:14px">
+        <div class="card">
+          <div class="card-h"><h3>⚡ Recent Activity</h3><button class="btn btn-g btn-sm">View all</button></div>
+          <div class="card-b" style="padding:10px 16px"><div class="tl" id="dashActivity"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>📅 Today's Schedule</h3><button class="btn btn-p btn-sm" onclick="nav('sitevisits')">+ Schedule</button></div>
+          <div class="card-b" style="display:flex;flex-direction:column;gap:8px" id="dashSchedule"></div>
+        </div>
+      </div>
+
+      <!-- Hot Leads + Project overview -->
+      <div class="g21">
+        <div class="card">
+          <div class="card-h"><h3>🔥 Hot Leads — Needs Action</h3><button class="btn btn-g btn-sm" onclick="nav('leads')">All Leads →</button></div>
+          <div class="tw">
+            <table>
+              <thead><tr><th>Lead</th><th>Project</th><th>Budget</th><th>Status</th><th>Last Contact</th></tr></thead>
+              <tbody id="dashHotLeads"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>🏢 Project Health</h3></div>
+          <div class="card-b" style="display:flex;flex-direction:column;gap:13px" id="dashProjHealth"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         LEADS
+    ══════════════════════════════ -->
+    <div class="pg" id="pg-leads">
+      <div class="ph">
+        <div class="ph-l"><h2>Lead Management</h2><p>All enquiries across JR Housing projects · Track · Manage · Convert</p></div>
+        <div class="ph-r">
+          <button class="btn btn-s" onclick="toast('info','📥 Exporting leads to CSV…')">📥 Export</button>
+          <button class="btn btn-p" onclick="openM('mAddLead')">➕ Add Lead</button>
+        </div>
+      </div>
+
+      <div class="fb">
+        <input class="si" type="text" id="lsearch" placeholder="🔍  Search name, phone, email…" oninput="filterLeads()"/>
+        <select class="fs2" id="lf-status" onchange="filterLeads()">
+          <option value="">All Status</option>
+          <option>New</option><option>Contacted</option><option>Interested</option>
+          <option>Site Visit Scheduled</option><option>Negotiation</option><option>Booked</option><option>Lost</option>
+        </select>
+        <select class="fs2" id="lf-proj" onchange="filterLeads()">
+          <option value="">All Projects</option>
+          <option>JR One East</option><option>JR Eastfields</option>
+          <option>JR Queenstown</option><option>JR Club Class</option><option>JR Waterfront</option>
+        </select>
+        <select class="fs2" id="lf-src" onchange="filterLeads()">
+          <option value="">All Sources</option>
+          <option>Website</option><option>Walk-in</option><option>Referral</option>
+          <option>Facebook</option><option>Google Ads</option><option>99acres</option><option>Housing.com</option><option>WhatsApp</option>
+        </select>
+        <select class="fs2" id="lf-agent" onchange="filterLeads()">
+          <option value="">All Agents</option>
+          <option>Suresh K</option><option>Priya M</option><option>Ravi S</option><option>Anita J</option>
+        </select>
+      </div>
+
+      <div class="tabs" id="leadTabs">
+        <div class="tab on" onclick="setLTab('all',this)">All</div>
+        <div class="tab" onclick="setLTab('hot',this)">🔥 Hot</div>
+        <div class="tab" onclick="setLTab('today',this)">Today</div>
+        <div class="tab" onclick="setLTab('overdue',this)">⏰ Overdue</div>
+        <div class="tab" onclick="setLTab('lost',this)">Lost</div>
+      </div>
+
+      <div class="card">
+        <div class="card-h">
+          <h3>Leads <span id="lcnt" style="color:var(--mu);font-weight:400"></span></h3>
+          <div style="display:flex;gap:6px;align-items:center">
+            <span style="font-size:.68rem;color:var(--mu)">Sort:</span>
+            <select class="fs2" style="padding:4px 8px;font-size:.68rem" onchange="sortLeads(this.value)">
+              <option>Newest</option><option>Oldest</option><option>Budget ↑</option><option>Budget ↓</option>
+            </select>
+          </div>
+        </div>
+        <div class="tw">
+          <table>
+            <thead><tr>
+              <th><input type="checkbox" id="chkAll" onchange="selAll(this)"/></th>
+              <th>Lead</th><th>Contact</th><th>Project</th>
+              <th>Budget</th><th>Source</th><th>Status</th>
+              <th>Agent</th><th>Added</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="leadsTable"></tbody>
+          </table>
+        </div>
+        <div style="padding:12px 18px;border-top:1px solid var(--b);display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:.7rem;color:var(--mu)" id="lpInfo"></span>
+          <div style="display:flex;gap:5px" id="lpPag"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         PIPELINE KANBAN
+    ══════════════════════════════ -->
+    <div class="pg" id="pg-pipeline">
+      <div class="ph">
+        <div class="ph-l"><h2>Sales Pipeline</h2><p>Visual deal tracking · Drag-free Kanban view</p></div>
+        <div class="ph-r">
+          <span style="font-size:.76rem;color:var(--mu)">Pipeline Value:</span>
+          <span style="font-size:1rem;font-weight:800;color:var(--gold);font-family:var(--fd)">₹38.4 Cr</span>
+          <button class="btn btn-p" onclick="openM('mAddLead')">➕ Add Deal</button>
+        </div>
+      </div>
+      <div class="pipe-board" id="pipeBoard"></div>
+    </div>
+
+    <!-- ══════════════════════════════
+         FOLLOW-UPS
+    ══════════════════════════════ -->
+    <div class="pg" id="pg-followups">
+      <div class="ph">
+        <div class="ph-l"><h2>Follow-ups</h2><p>Never miss a lead touchpoint</p></div>
+        <div class="ph-r"><button class="btn btn-p" onclick="openM('mAddFU')">➕ Schedule</button></div>
+      </div>
+
+      <div class="kpi-row kpi-4">
+        <div class="kpi c-red"><div class="kpi-lbl">Overdue</div><div class="kpi-val">7</div><div class="kpi-sub">Immediate attention</div></div>
+        <div class="kpi c-gold"><div class="kpi-lbl">Due Today</div><div class="kpi-val">12</div><div class="kpi-sub">Next 8 hours</div></div>
+        <div class="kpi c-blue"><div class="kpi-lbl">This Week</div><div class="kpi-val">34</div><div class="kpi-sub">Mon–Sun</div></div>
+        <div class="kpi c-green"><div class="kpi-lbl">Completed Today</div><div class="kpi-val">8</div><div class="kpi-sub">67% done rate</div></div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab on" onclick="setFUTab('overdue',this)">🔴 Overdue (7)</div>
+        <div class="tab" onclick="setFUTab('today',this)">Today (12)</div>
+        <div class="tab" onclick="setFUTab('upcoming',this)">Upcoming (34)</div>
+        <div class="tab" onclick="setFUTab('done',this)">Completed</div>
+      </div>
+
+      <div class="card">
+        <div class="tw">
+          <table>
+            <thead><tr><th>Lead / Customer</th><th>Project</th><th>Type</th><th>Scheduled</th><th>Agent</th><th>Priority</th><th>Notes</th><th>Action</th></tr></thead>
+            <tbody id="fuTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         SITE VISITS
+    ══════════════════════════════ -->
+    <div class="pg" id="pg-sitevisits">
+      <div class="ph">
+        <div class="ph-l"><h2>Site Visits</h2><p>Schedule, track and manage all property visits</p></div>
+        <div class="ph-r"><button class="btn btn-p" onclick="openM('mAddVisit')">➕ Schedule Visit</button></div>
+      </div>
+      <div class="g21">
+        <div class="card">
+          <div class="card-h"><h3>📋 All Visits</h3></div>
+          <div class="card-b" style="display:flex;flex-direction:column;gap:9px" id="svList"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>📅 March 2025</h3></div>
+          <div class="card-b">
+            <div class="cal-hdr">
+              <div class="cal-dn">Su</div><div class="cal-dn">Mo</div><div class="cal-dn">Tu</div>
+              <div class="cal-dn">We</div><div class="cal-dn">Th</div><div class="cal-dn">Fr</div><div class="cal-dn">Sa</div>
+            </div>
+            <div class="cal-grid" id="svCal"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         BOOKINGS
+    ══════════════════════════════ -->
+    <div class="pg" id="pg-bookings">
+      <div class="ph">
+        <div class="ph-l"><h2>Bookings & Deals</h2><p>Confirmed bookings, payment schedules, documentation</p></div>
+        <div class="ph-r"><button class="btn btn-p" onclick="openM('mAddBooking')">➕ New Booking</button></div>
+      </div>
+
+      <div class="kpi-row kpi-4">
+        <div class="kpi c-gold"><div class="kpi-lbl">Total Bookings (FY)</div><div class="kpi-val">32</div></div>
+        <div class="kpi c-green"><div class="kpi-lbl">Registered</div><div class="kpi-val">28</div><div class="kpi-sub">₹12.6Cr value</div></div>
+        <div class="kpi c-orange"><div class="kpi-lbl">Docs Pending</div><div class="kpi-val">4</div><div class="kpi-sub">KYC incomplete</div></div>
+        <div class="kpi c-red"><div class="kpi-lbl">Cancellations</div><div class="kpi-val">2</div><div class="kpi-sub">This quarter</div></div>
+      </div>
+
+      <div class="card">
+        <div class="tw">
+          <table>
+            <thead><tr><th>Booking ID</th><th>Customer</th><th>Project</th><th>Unit</th><th>Value</th><th>Paid</th><th>Balance</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+            <tbody id="bkTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         PROJECTS
+    ══════════════════════════════ -->
+    <div class="pg" id="pg-projects">
+      <div class="ph">
+        <div class="ph-l"><h2>Projects</h2><p>All active & completed JR Housing developments</p></div>
+        <div class="ph-r"><button class="btn btn-p" onclick="toast('info','📦 Project creation coming soon')">➕ Add Project</button></div>
+      </div>
+      <div class="g3" id="projGrid"></div>
+    </div>
+
+    <!-- ══════════════════════════════
+         INVENTORY
+    ══════════════════════════════ -->
+    <div class="pg" id="pg-inventory">
+      <div class="ph">
+        <div class="ph-l"><h2>Plot Inventory</h2><p>Real-time availability across all projects</p></div>
+        <div class="ph-r">
+          <select class="fs2" id="invProj" onchange="loadInventory()">
+            <option>JR One East</option><option>JR Eastfields</option>
+            <option>JR Queenstown</option><option>JR Club Class</option><option>JR Waterfront</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="kpi-row kpi-4">
+        <div class="kpi c-green"><div class="kpi-lbl">Available</div><div class="kpi-val" id="inv-a">184</div></div>
+        <div class="kpi c-gold"><div class="kpi-lbl">Blocked</div><div class="kpi-val" id="inv-b">12</div></div>
+        <div class="kpi c-red"><div class="kpi-lbl">Sold</div><div class="kpi-val" id="inv-s">89</div></div>
+        <div class="kpi c-blue"><div class="kpi-lbl">Total Units</div><div class="kpi-val" id="inv-t">285</div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-h">
+          <h3>📍 Interactive Plot Grid</h3>
+          <div style="display:flex;gap:12px">
+            <div class="leg"><div class="leg-dot" style="background:var(--grn)"></div>Available</div>
+            <div class="leg"><div class="leg-dot" style="background:var(--gold)"></div>Blocked</div>
+            <div class="leg"><div class="leg-dot" style="background:var(--red)"></div>Sold</div>
+          </div>
+        </div>
+        <div class="card-b">
+          <div class="inv-grid" id="invGrid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         PAYMENTS
+    ══════════════════════════════ -->
+    <div class="pg" id="pg-payments">
+      <div class="ph">
+        <div class="ph-l"><h2>Payments & Collections</h2><p>All payment milestones, receipts and outstanding dues</p></div>
+        <div class="ph-r">
+          <button class="btn btn-s">📥 Statement</button>
+          <button class="btn btn-p" onclick="openM('mAddPay')">➕ Record Payment</button>
+        </div>
+      </div>
+
+      <div class="kpi-row kpi-4">
+        <div class="kpi c-green"><div class="kpi-lbl">Collected (FY)</div><div class="kpi-val">₹11.4Cr</div></div>
+        <div class="kpi c-orange"><div class="kpi-lbl">Outstanding</div><div class="kpi-val">₹2.8Cr</div></div>
+        <div class="kpi c-red"><div class="kpi-lbl">Overdue</div><div class="kpi-val">₹0.6Cr</div></div>
+        <div class="kpi c-blue"><div class="kpi-lbl">This Month</div><div class="kpi-val">₹1.8Cr</div></div>
+      </div>
+
+      <div class="card">
+        <div class="tw">
+          <table>
+            <thead><tr><th>Receipt #</th><th>Customer</th><th>Project</th><th>Milestone</th><th>Amount</th><th>Mode</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="payTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         ANALYTICS / REPORTS
+    ══════════════════════════════ -->
+    <div class="pg" id="pg-reports">
+      <div class="ph">
+        <div class="ph-l"><h2>Analytics & Reports</h2><p>Business intelligence across all JR Housing operations</p></div>
+        <div class="ph-r">
+          <select class="fs2"><option>FY 2024-25</option><option>FY 2023-24</option></select>
+          <button class="btn btn-s">📥 Export PDF</button>
+        </div>
+      </div>
+
+      <div class="kpi-row kpi-3">
+        <div class="card">
+          <div class="card-h"><h3>📉 Lead Funnel</h3></div>
+          <div class="card-b" id="rFunnel"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>🏆 Top Performers</h3></div>
+          <div class="card-b" id="rPerf"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>📣 Campaign ROI</h3></div>
+          <div class="card-b" id="rCamp"></div>
+        </div>
+      </div>
+
+      <div class="g2" style="margin-top:14px">
+        <div class="card">
+          <div class="card-h"><h3>💰 Revenue by Project</h3></div>
+          <div class="card-b" id="rRevProj"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>📈 Monthly Conversion Rate</h3></div>
+          <div class="card-b" id="rConv"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         CUSTOMERS
+    ══════════════════════════════ -->
+    <div class="pg" id="pg-customers">
+      <div class="ph">
+        <div class="ph-l"><h2>Customers</h2><p>All confirmed villa & plot buyers</p></div>
+        <div class="ph-r"><button class="btn btn-p" onclick="toast('info','👤 Customer form opening soon')">➕ Add Customer</button></div>
+      </div>
+      <div class="card">
+        <div class="tw">
+          <table>
+            <thead><tr><th>Customer</th><th>Property</th><th>Project</th><th>Purchase Date</th><th>Value</th><th>Paid</th><th>Balance</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="custTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         CAMPAIGNS
+    ══════════════════════════════ -->
+    <div class="pg" id="pg-campaigns">
+      <div class="ph">
+        <div class="ph-l"><h2>Marketing Campaigns</h2><p>Track ad spend, CPL and ROI across all channels</p></div>
+        <div class="ph-r"><button class="btn btn-p" onclick="openM('mAddCamp')">➕ New Campaign</button></div>
+      </div>
+
+      <div class="kpi-row kpi-4">
+        <div class="kpi c-blue"><div class="kpi-lbl">Total Spend</div><div class="kpi-val">₹8.4L</div></div>
+        <div class="kpi c-green"><div class="kpi-lbl">Leads Generated</div><div class="kpi-val">678</div></div>
+        <div class="kpi c-gold"><div class="kpi-lbl">Avg CPL</div><div class="kpi-val">₹1,240</div></div>
+        <div class="kpi c-purple"><div class="kpi-lbl">ROAS</div><div class="kpi-val">16.9×</div></div>
+      </div>
+
+      <div class="card">
+        <div class="tw">
+          <table>
+            <thead><tr><th>Campaign</th><th>Channel</th><th>Project</th><th>Spend</th><th>Leads</th><th>CPL</th><th>Conv.</th><th>Revenue</th><th>ROAS</th><th>Status</th></tr></thead>
+            <tbody id="campTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         TEAM
+    ══════════════════════════════ -->
+    <div class="pg" id="pg-team">
+      <div class="ph">
+        <div class="ph-l"><h2>Team</h2><p>Sales team performance, targets and assignments</p></div>
+        <div class="ph-r"><button class="btn btn-p" onclick="openM('mAddTeam')">➕ Add Member</button></div>
+      </div>
+      <div class="g3" id="teamGrid"></div>
+    </div>
+
+    <!-- ══════════════════════════════
+         SETTINGS
+    ══════════════════════════════ -->
+    <div class="pg" id="pg-settings">
+      <div class="ph"><div class="ph-l"><h2>Settings</h2><p>Configure your CRM preferences and company details</p></div></div>
+      <div class="g2">
+        <div class="card">
+          <div class="card-h"><h3>👤 Profile</h3></div>
+          <div class="card-b">
+            <div class="fr fr2" style="margin-bottom:13px">
+              <div class="fg"><label class="fl">First Name</label><input class="fi" value="Niranjan"/></div>
+              <div class="fg"><label class="fl">Last Name</label><input class="fi" value="Kumar Reddy"/></div>
+            </div>
+            <div class="fr fr2" style="margin-bottom:13px">
+              <div class="fg"><label class="fl">Email</label><input class="fi" value="niranjan@jrhousing.com"/></div>
+              <div class="fg"><label class="fl">Phone</label><input class="fi" value="+91 9590 616 616"/></div>
+            </div>
+            <button class="btn btn-p" onclick="toast('success','✅ Profile saved')">Save Profile</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>🔔 Notifications</h3></div>
+          <div class="card-b" id="notifPrefs"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>🏢 Company</h3></div>
+          <div class="card-b">
+            <div class="fr fr2" style="margin-bottom:13px">
+              <div class="fg"><label class="fl">Company Name</label><input class="fi" value="JR Housing Ltd."/></div>
+              <div class="fg"><label class="fl">RERA</label><input class="fi" value="PRM/KA/RERA/1250/304"/></div>
+            </div>
+            <div class="fg" style="margin-bottom:13px"><label class="fl">Address</label><textarea class="fta">Bangalore, Karnataka, India</textarea></div>
+            <button class="btn btn-p" onclick="toast('success','✅ Company settings saved')">Save</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>🎨 Preferences</h3></div>
+          <div class="card-b" id="prefPanel"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /pg-wrap -->
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<!-- ═══════════════════════════ MODALS ═══════════════════════════ -->
+
+<!-- ADD LEAD -->
+<div class="mb" id="mAddLead">
+<div class="mo">
+  <div class="mo-h"><h3>➕ New Lead</h3><div class="mo-x" onclick="closeM('mAddLead')">✕</div></div>
+  <div class="mo-b">
+    <div class="fr fr2" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Full Name *</label><input class="fi" id="al-n" placeholder="e.g. Rajesh Kumar"/></div>
+      <div class="fg"><label class="fl">Phone *</label><input class="fi" id="al-ph" placeholder="+91 XXXXX XXXXX"/></div>
+    </div>
+    <div class="fr fr2" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Email</label><input class="fi" id="al-em" placeholder="email@example.com"/></div>
+      <div class="fg"><label class="fl">City</label><input class="fi" id="al-cy" placeholder="Bangalore"/></div>
+    </div>
+    <div class="fr fr2" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Source *</label>
+        <select class="fs" id="al-src" style="width:100%;padding:8px 11px;border:1px solid var(--b2);border-radius:8px;font-size:.78rem;font-family:var(--f);outline:none;background:var(--surf)">
+          <option>Website</option><option>Walk-in</option><option>Referral</option>
+          <option>Facebook</option><option>Google Ads</option><option>99acres</option><option>Housing.com</option><option>WhatsApp</option>
+        </select>
+      </div>
+      <div class="fg"><label class="fl">Project *</label>
+        <select class="fs" id="al-pj" style="width:100%;padding:8px 11px;border:1px solid var(--b2);border-radius:8px;font-size:.78rem;font-family:var(--f);outline:none;background:var(--surf)">
+          <option>JR One East</option><option>JR Eastfields</option>
+          <option>JR Queenstown</option><option>JR Club Class</option><option>JR Waterfront</option>
+        </select>
+      </div>
+    </div>
+    <div class="fr fr3" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Budget</label>
+        <select class="fs" id="al-bg" style="width:100%;padding:8px 11px;border:1px solid var(--b2);border-radius:8px;font-size:.78rem;font-family:var(--f);outline:none;background:var(--surf)">
+          <option>₹50L–₹1Cr</option><option>₹1Cr–₹2Cr</option><option>₹2Cr–₹3Cr</option><option>₹3Cr+</option>
+        </select>
+      </div>
+      <div class="fg"><label class="fl">Assign To</label>
+        <select class="fs" id="al-ag" style="width:100%;padding:8px 11px;border:1px solid var(--b2);border-radius:8px;font-size:.78rem;font-family:var(--f);outline:none;background:var(--surf)">
+          <option>Suresh K</option><option>Priya M</option><option>Ravi S</option><option>Anita J</option>
+        </select>
+      </div>
+      <div class="fg"><label class="fl">Priority</label>
+        <select class="fs" id="al-pr" style="width:100%;padding:8px 11px;border:1px solid var(--b2);border-radius:8px;font-size:.78rem;font-family:var(--f);outline:none;background:var(--surf)">
+          <option>High</option><option>Medium</option><option>Low</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg"><label class="fl">Notes</label><textarea class="fta" id="al-nt" placeholder="Initial enquiry details, requirements…"></textarea></div>
+  </div>
+  <div class="mo-f">
+    <button class="btn btn-s" onclick="closeM('mAddLead')">Cancel</button>
+    <button class="btn btn-p" onclick="saveLead()">Save Lead →</button>
+  </div>
+</div>
+</div>
+
+<!-- LEAD DETAIL -->
+<div class="mb" id="mLeadDetail">
+<div class="mo mo-xl">
+  <div class="mo-h">
+    <h3>👤 Lead — <span id="ld-name"></span></h3>
+    <div style="display:flex;align-items:center;gap:8px"><span id="ld-badge"></span><div class="mo-x" onclick="closeM('mLeadDetail')">✕</div></div>
+  </div>
+  <div class="mo-b" style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+    <div>
+      <div style="font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--mu);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--b)">Contact Info</div>
+      <div id="ld-cinfo"></div>
+      <div style="font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--mu);margin:14px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--b)">Property Interest</div>
+      <div id="ld-pinfo"></div>
+      <div style="font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--mu);margin:14px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--b)">Update</div>
+      <div class="fr fr2" style="margin-bottom:10px">
+        <div class="fg"><label class="fl">Status</label>
+          <select class="fs" id="ld-status" style="width:100%;padding:8px 11px;border:1px solid var(--b2);border-radius:8px;font-size:.78rem;font-family:var(--f);outline:none;background:var(--surf)">
+            <option>New</option><option>Contacted</option><option>Interested</option>
+            <option>Site Visit Scheduled</option><option>Negotiation</option><option>Booked</option><option>Lost</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl">Next Follow-up</label><input type="datetime-local" class="fi" id="ld-fu"/></div>
+      </div>
+      <div class="fg" style="margin-bottom:10px"><label class="fl">Add Note</label><textarea class="fta" id="ld-note" placeholder="Add interaction notes…"></textarea></div>
+      <button class="btn btn-p btn-sm" onclick="updateLead()">Update Lead</button>
+    </div>
+    <div>
+      <div style="font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--mu);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--b)">Activity Timeline</div>
+      <div class="tl" id="ld-timeline"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ADD FOLLOW-UP -->
+<div class="mb" id="mAddFU">
+<div class="mo">
+  <div class="mo-h"><h3>🔔 Schedule Follow-up</h3><div class="mo-x" onclick="closeM('mAddFU')">✕</div></div>
+  <div class="mo-b">
+    <div class="fg" style="margin-bottom:12px"><label class="fl">Lead / Customer *</label><input class="fi" id="fu-ld" placeholder="Search lead name…"/></div>
+    <div class="fr fr2" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Type</label>
+        <select class="fi" id="fu-tp"><option>Phone Call</option><option>WhatsApp</option><option>Email</option><option>Site Visit</option><option>Meeting</option><option>Video Call</option></select>
+      </div>
+      <div class="fg"><label class="fl">Priority</label>
+        <select class="fi" id="fu-pri"><option>High</option><option>Medium</option><option>Low</option></select>
+      </div>
+    </div>
+    <div class="fr fr2" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Date & Time *</label><input type="datetime-local" class="fi" id="fu-dt"/></div>
+      <div class="fg"><label class="fl">Assign To</label>
+        <select class="fi" id="fu-ag"><option>Suresh K</option><option>Priya M</option><option>Ravi S</option><option>Anita J</option></select>
+      </div>
+    </div>
+    <div class="fg"><label class="fl">Notes</label><textarea class="fta" id="fu-nt" placeholder="What needs to be discussed…"></textarea></div>
+  </div>
+  <div class="mo-f">
+    <button class="btn btn-s" onclick="closeM('mAddFU')">Cancel</button>
+    <button class="btn btn-p" onclick="closeSave('mAddFU','🔔 Follow-up scheduled')">Schedule →</button>
+  </div>
+</div>
+</div>
+
+<!-- ADD SITE VISIT -->
+<div class="mb" id="mAddVisit">
+<div class="mo">
+  <div class="mo-h"><h3>🏗️ Schedule Site Visit</h3><div class="mo-x" onclick="closeM('mAddVisit')">✕</div></div>
+  <div class="mo-b">
+    <div class="fr fr2" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Customer Name *</label><input class="fi" id="sv-n"/></div>
+      <div class="fg"><label class="fl">Phone</label><input class="fi" id="sv-ph"/></div>
+    </div>
+    <div class="fr fr2" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Project *</label>
+        <select class="fi" id="sv-pj"><option>JR One East</option><option>JR Eastfields</option><option>JR Queenstown</option><option>JR Club Class</option><option>JR Waterfront</option></select>
+      </div>
+      <div class="fg"><label class="fl">Date & Time *</label><input type="datetime-local" class="fi" id="sv-dt"/></div>
+    </div>
+    <div class="fr fr2" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Transport</label><select class="fi" id="sv-tr"><option>Self</option><option>Company Cab</option><option>Own Vehicle</option></select></div>
+      <div class="fg"><label class="fl">Escort Agent</label><select class="fi" id="sv-ag"><option>Suresh K</option><option>Priya M</option><option>Ravi S</option><option>Anita J</option></select></div>
+    </div>
+    <div class="fg"><label class="fl">Special Notes</label><textarea class="fta" id="sv-nt"></textarea></div>
+  </div>
+  <div class="mo-f">
+    <button class="btn btn-s" onclick="closeM('mAddVisit')">Cancel</button>
+    <button class="btn btn-p" onclick="closeSave('mAddVisit','🏗️ Site visit scheduled')">Schedule →</button>
+  </div>
+</div>
+</div>
+
+<!-- ADD BOOKING -->
+<div class="mb" id="mAddBooking">
+<div class="mo mo-lg">
+  <div class="mo-h"><h3>📋 New Booking</h3><div class="mo-x" onclick="closeM('mAddBooking')">✕</div></div>
+  <div class="mo-b">
+    <div class="fr fr3" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Customer Name *</label><input class="fi" id="bk-n"/></div>
+      <div class="fg"><label class="fl">Phone *</label><input class="fi" id="bk-ph"/></div>
+      <div class="fg"><label class="fl">Email</label><input class="fi" id="bk-em"/></div>
+    </div>
+    <div class="fr fr3" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Project *</label>
+        <select class="fi" id="bk-pj"><option>JR One East</option><option>JR Eastfields</option><option>JR Queenstown</option><option>JR Club Class</option><option>JR Waterfront</option></select>
+      </div>
+      <div class="fg"><label class="fl">Plot/Unit No *</label><input class="fi" id="bk-un" placeholder="e.g. Plot-245"/></div>
+      <div class="fg"><label class="fl">Size (sqft)</label><input class="fi" id="bk-sz" placeholder="1500"/></div>
+    </div>
+    <div class="fr fr3" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Total Value (₹) *</label><input class="fi" id="bk-val" placeholder="1,50,00,000"/></div>
+      <div class="fg"><label class="fl">Booking Amount (₹)</label><input class="fi" id="bk-adv" placeholder="5,00,000"/></div>
+      <div class="fg"><label class="fl">Payment Mode</label><select class="fi" id="bk-md"><option>NEFT/RTGS</option><option>Cheque</option><option>DD</option><option>Cash</option></select></div>
+    </div>
+    <div class="fg"><label class="fl">Notes</label><textarea class="fta" id="bk-nt"></textarea></div>
+  </div>
+  <div class="mo-f">
+    <button class="btn btn-s" onclick="closeM('mAddBooking')">Cancel</button>
+    <button class="btn btn-p" onclick="closeSave('mAddBooking','📋 Booking confirmed!')">Confirm Booking →</button>
+  </div>
+</div>
+</div>
+
+<!-- ADD PAYMENT -->
+<div class="mb" id="mAddPay">
+<div class="mo">
+  <div class="mo-h"><h3>💰 Record Payment</h3><div class="mo-x" onclick="closeM('mAddPay')">✕</div></div>
+  <div class="mo-b">
+    <div class="fr fr2" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Customer *</label><input class="fi" id="py-cu" placeholder="Customer name"/></div>
+      <div class="fg"><label class="fl">Booking ID</label><input class="fi" id="py-bk" placeholder="BK-001"/></div>
+    </div>
+    <div class="fr fr2" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Amount (₹) *</label><input class="fi" id="py-am" placeholder="5,00,000"/></div>
+      <div class="fg"><label class="fl">Payment Date *</label><input type="date" class="fi" id="py-dt"/></div>
+    </div>
+    <div class="fr fr2" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Mode</label><select class="fi" id="py-md"><option>NEFT/RTGS</option><option>Cheque</option><option>UPI</option><option>DD</option><option>Cash</option></select></div>
+      <div class="fg"><label class="fl">Milestone</label><select class="fi" id="py-ml"><option>Booking Amount</option><option>10% Down Payment</option><option>20% on Sanction</option><option>Installment 1</option><option>Final Payment</option></select></div>
+    </div>
+    <div class="fg"><label class="fl">Transaction Ref / Cheque No</label><input class="fi" id="py-ref"/></div>
+  </div>
+  <div class="mo-f">
+    <button class="btn btn-s" onclick="closeM('mAddPay')">Cancel</button>
+    <button class="btn btn-p" onclick="closeSave('mAddPay','💰 Payment recorded')">Record →</button>
+  </div>
+</div>
+</div>
+
+<!-- ADD CAMPAIGN -->
+<div class="mb" id="mAddCamp">
+<div class="mo mo-lg">
+  <div class="mo-h"><h3>📣 New Campaign</h3><div class="mo-x" onclick="closeM('mAddCamp')">✕</div></div>
+  <div class="mo-b">
+    <div class="fr fr2" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Campaign Name *</label><input class="fi" id="cp-nm"/></div>
+      <div class="fg"><label class="fl">Channel *</label><select class="fi" id="cp-ch"><option>Facebook Ads</option><option>Google Ads</option><option>Instagram</option><option>99acres</option><option>Housing.com</option><option>Email</option><option>WhatsApp</option></select></div>
+    </div>
+    <div class="fr fr3" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Project</label><select class="fi" id="cp-pj"><option>All Projects</option><option>JR One East</option><option>JR Eastfields</option><option>JR Queenstown</option><option>JR Club Class</option><option>JR Waterfront</option></select></div>
+      <div class="fg"><label class="fl">Budget (₹)</label><input class="fi" id="cp-bg" placeholder="1,00,000"/></div>
+      <div class="fg"><label class="fl">Start Date</label><input type="date" class="fi" id="cp-sd"/></div>
+    </div>
+    <div class="fg"><label class="fl">Campaign Objective</label><textarea class="fta" id="cp-ob"></textarea></div>
+  </div>
+  <div class="mo-f">
+    <button class="btn btn-s" onclick="closeM('mAddCamp')">Cancel</button>
+    <button class="btn btn-p" onclick="closeSave('mAddCamp','📣 Campaign created')">Create →</button>
+  </div>
+</div>
+</div>
+
+<!-- ADD TEAM MEMBER -->
+<div class="mb" id="mAddTeam">
+<div class="mo">
+  <div class="mo-h"><h3>🧑‍💼 Add Team Member</h3><div class="mo-x" onclick="closeM('mAddTeam')">✕</div></div>
+  <div class="mo-b">
+    <div class="fr fr2" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Full Name *</label><input class="fi" id="tm-nm"/></div>
+      <div class="fg"><label class="fl">Role *</label><select class="fi" id="tm-rl"><option>Sales Executive</option><option>Senior Sales Manager</option><option>CRM Manager</option><option>Marketing Manager</option><option>Director</option></select></div>
+    </div>
+    <div class="fr fr2" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Phone</label><input class="fi" id="tm-ph"/></div>
+      <div class="fg"><label class="fl">Email</label><input class="fi" id="tm-em"/></div>
+    </div>
+    <div class="fr fr2" style="margin-bottom:12px">
+      <div class="fg"><label class="fl">Assigned Projects</label><select class="fi" id="tm-pj"><option>All Projects</option><option>JR One East</option><option>JR Eastfields</option><option>JR Queenstown</option><option>JR Club Class</option></select></div>
+      <div class="fg"><label class="fl">Monthly Target (₹)</label><input class="fi" id="tm-tg" placeholder="50,00,000"/></div>
+    </div>
+  </div>
+  <div class="mo-f">
+    <button class="btn btn-s" onclick="closeM('mAddTeam')">Cancel</button>
+    <button class="btn btn-p" onclick="closeSave('mAddTeam','🧑‍💼 Team member added')">Add Member →</button>
+  </div>
+</div>
+</div>
+
+<!-- NOTIFICATION PANEL -->
+<div class="np-back" id="npBack" onclick="toggleNP()"></div>
+<div class="np" id="npPanel">
+  <div class="np-h"><h4>🔔 Notifications</h4><button class="btn btn-g btn-xs" onclick="clearNotifs()">Clear all</button></div>
+  <div id="npList"></div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="tw2" id="toastWrap"></div>
+
+<script>
+// ════════════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════════════
+const PROJECTS=[
+  {id:'p1',name:'JR One East',loc:'Between Whitefield & Hoskote, Bangalore East',type:'Lifestyle Villas',units:180,avail:62,sold:98,block:20,rera:'PRM/KA/RERA/1250/304/PR/161224/007298',minP:'₹2.8Cr',maxP:'₹4.5Cr',size:'3500–4800 sqft',leads:42,rev:'₹4.2Cr',pct:54},
+  {id:'p2',name:'JR Eastfields',loc:'New Whitefield, Hoskote, Bangalore East',type:'Villas & Villa Plots',units:220,avail:84,sold:112,block:24,rera:'PRM/KA/RERA/1250/304/PR/300923/006296',minP:'₹1.9Cr',maxP:'₹2.7Cr',size:'2200–2700 sqft',leads:38,rev:'₹3.8Cr',pct:51},
+  {id:'p3',name:'JR Queenstown',loc:'700m off Outer Ring Road, Mysore',type:'MUDA Villa Plots',units:310,avail:180,sold:115,block:15,rera:'PRM/KA/RERA/1268/378/PR/030223/005677',minP:'₹42L',maxP:'₹78L',size:'30×40 – 30×50 ft',leads:29,rev:'₹2.4Cr',pct:37},
+  {id:'p4',name:'JR Club Class',loc:'Near E-City, Lingapura, Bangalore South',type:'Villa & Commercial Plots',units:290,avail:155,sold:118,block:17,rera:'PRM/KA/RERA/1251/308/PR/210524/006915',minP:'₹72L',maxP:'₹1.8Cr',size:'30×50 – 50×80 ft',leads:31,rev:'₹2.8Cr',pct:41},
+  {id:'p5',name:'JR Waterfront',loc:'Near Nannur Toll, Kurnool, Andhra Pradesh',type:'4 & 5 BHK Lifestyle Villas',units:150,avail:92,sold:45,block:13,rera:'AP RERA: P13070242053',minP:'₹1.8Cr',maxP:'₹3.2Cr',size:'40×60 – 40×70 ft',leads:8,rev:'₹1.0Cr',pct:30}
+];
+
+const SC={New:'bg-blue',Contacted:'bg-gold',Interested:'bg-purple','Site Visit Scheduled':'bg-orange',Negotiation:'bg-red',Booked:'bg-green',Lost:'bg-grey'};
+
+function mkLeads(){
+  const nm=['Rajesh Kumar','Priya Sharma','Vikram Singh','Ananya Reddy','Suresh Patel','Meera Nair','Arun Iyer','Deepa Krishnan','Kiran Rao','Sanjay Gupta','Pooja Mehta','Rahul Verma','Sunita Joshi','Manoj Tiwari','Kavitha Rajan','Aditya Bose','Sneha Desai','Rohit Malhotra','Geeta Pillai','Ravi Shankar','Divya Nambiar','Sunil Kapoor','Lakshmi Venkat','Arjun Nair','Preeti Singh','Harish Menon','Vidya Kumar','Ramesh Babu','Anjali Puri','Deepak Chandra','Santhosh Kumar','Kaveri Reddy','Mohan Lal','Aparna Iyer','Bhaskar Rao','Chitra Menon','Dinesh Gupta','Eswari Nair','Farhan Khan','Girish Sharma'];
+  const pj=['JR One East','JR Eastfields','JR Queenstown','JR Club Class','JR Waterfront'];
+  const src=['Website','Walk-in','Referral','Facebook','Google Ads','99acres','Housing.com','WhatsApp'];
+  const st=['New','Contacted','Interested','Site Visit Scheduled','Negotiation','Booked','Lost'];
+  const ag=['Suresh K','Priya M','Ravi S','Anita J'];
+  const bg=['₹50L–₹1Cr','₹1Cr–₹2Cr','₹2Cr–₹3Cr','₹3Cr+'];
+  const ar=[];
+  for(let i=0;i<90;i++){
+    const d=new Date();d.setDate(d.getDate()-Math.floor(Math.random()*60));
+    const lc=new Date(d.getTime()+Math.random()*5*864e5);
+    ar.push({id:'L'+(1000+i),name:nm[i%nm.length],phone:'+91 9'+(Math.floor(1e9+Math.random()*9e9)),email:nm[i%nm.length].toLowerCase().replace(/ /g,'.')+'@gmail.com',project:pj[i%pj.length],source:src[i%src.length],status:st[i%st.length],agent:ag[i%ag.length],budget:bg[i%bg.length],city:['Bangalore','Hyderabad','Chennai','Mumbai','Pune','Delhi'][i%6],date:d.toLocaleDateString('en-IN'),lastContact:lc.toLocaleDateString('en-IN'),priority:['High','Medium','Low'][i%3],notes:'Enquiry via '+src[i%src.length]+'. Interested in '+pj[i%pj.length]+'.',timeline:[{ic:'📥',txt:'<strong>Lead created</strong> via '+src[i%src.length],tm:d.toLocaleDateString('en-IN')},{ic:'✉️',txt:'<strong>Brochure sent</strong> via email',tm:new Date(d.getTime()+864e5).toLocaleDateString('en-IN')}]});
+  }
+  return ar;
+}
+let LEADS=mkLeads();
+
+const FU=[
+  {id:'F001',lead:'Rajesh Kumar',proj:'JR One East',type:'Phone Call',dt:'2025-03-06 10:00',agent:'Suresh K',pri:'High',tab:'overdue',notes:'Interested in 4BHK villa. Discuss payment plan.'},
+  {id:'F002',lead:'Priya Sharma',proj:'JR Eastfields',type:'WhatsApp',dt:'2025-03-06 11:30',agent:'Priya M',pri:'High',tab:'today',notes:'Share updated price list and floor plans.'},
+  {id:'F003',lead:'Vikram Singh',proj:'JR Club Class',type:'Site Visit',dt:'2025-03-06 14:00',agent:'Ravi S',pri:'Medium',tab:'today',notes:'Second visit. Close to booking.'},
+  {id:'F004',lead:'Ananya Reddy',proj:'JR Queenstown',type:'Email',dt:'2025-03-05 16:00',agent:'Anita J',pri:'Low',tab:'overdue',notes:'Send RERA documents and plot map.'},
+  {id:'F005',lead:'Suresh Patel',proj:'JR One East',type:'Phone Call',dt:'2025-03-07 09:00',agent:'Suresh K',pri:'High',tab:'upcoming',notes:'Follow up on bank loan pre-approval.'},
+  {id:'F006',lead:'Meera Nair',proj:'JR Waterfront',type:'Video Call',dt:'2025-03-07 15:00',agent:'Priya M',pri:'Medium',tab:'upcoming',notes:'NRI client — virtual walk-through of site.'},
+  {id:'F007',lead:'Kiran Rao',proj:'JR Eastfields',type:'Meeting',dt:'2025-03-04 11:00',agent:'Suresh K',pri:'High',tab:'overdue',notes:'Negotiate final price. Has competing offer from other developer.'},
+  {id:'F008',lead:'Sanjay Gupta',proj:'JR Club Class',type:'Phone Call',dt:'2025-03-08 10:00',agent:'Ravi S',pri:'Low',tab:'upcoming',notes:'Cold lead re-engagement campaign.'},
+  {id:'F009',lead:'Deepa Krishnan',proj:'JR One East',type:'WhatsApp',dt:'2025-03-06 12:00',agent:'Anita J',pri:'High',tab:'today',notes:'Sent payment schedule. Awaiting feedback.'},
+  {id:'F010',lead:'Arun Iyer',proj:'JR Queenstown',type:'Phone Call',dt:'2025-03-04 09:00',agent:'Priya M',pri:'Medium',tab:'overdue',notes:'Plot selection pending. Shortlisted 3 plots.'},
+];
+
+const BOOKINGS=[
+  {id:'BK-001',cust:'Tej Pratap',proj:'JR One East',unit:'Villa-12',val:'₹3.85Cr',paid:'₹1.20Cr',bal:'₹2.65Cr',status:'Active',date:'15 Jan 2025'},
+  {id:'BK-002',cust:'Galam Sunil Yadav',proj:'JR Eastfields',unit:'Plot-245',val:'₹1.92Cr',paid:'₹1.92Cr',bal:'₹0',status:'Registered',date:'2 Dec 2024'},
+  {id:'BK-003',cust:'Srinivasa Rao Golla',proj:'JR Queenstown',unit:'Plot-118',val:'₹56L',paid:'₹28L',bal:'₹28L',status:'Active',date:'20 Nov 2024'},
+  {id:'BK-004',cust:'Tony John',proj:'JR One East',unit:'Villa-08',val:'₹4.10Cr',paid:'₹4.10Cr',bal:'₹0',status:'Registered',date:'5 Sep 2024'},
+  {id:'BK-005',cust:'Muthukumar V.P.',proj:'JR Club Class',unit:'Plot-85',val:'₹88L',paid:'₹44L',bal:'₹44L',status:'Active',date:'10 Feb 2025'},
+  {id:'BK-006',cust:'Riya Singh',proj:'JR Queenstown',unit:'Plot-302',val:'₹62L',paid:'₹31L',bal:'₹31L',status:'Docs Pending',date:'28 Feb 2025'},
+  {id:'BK-007',cust:'Rao Sadhureddy',proj:'JR Eastfields',unit:'Plot-1145',val:'₹1.40Cr',paid:'₹1.40Cr',bal:'₹0',status:'Registered',date:'12 Oct 2024'},
+  {id:'BK-008',cust:'K.R. Shantha',proj:'JR One East',unit:'Villa-03',val:'₹3.20Cr',paid:'₹0.80Cr',bal:'₹2.40Cr',status:'Active',date:'5 Mar 2025'},
+];
+
+const PAYMENTS=[
+  {id:'RCP-2501',cust:'Tony John',proj:'JR One East',ms:'Final Payment',amt:'₹85L',mode:'NEFT',date:'28 Feb 2025',status:'Cleared'},
+  {id:'RCP-2502',cust:'Galam Sunil Yadav',proj:'JR Eastfields',ms:'Booking Amount',amt:'₹5L',mode:'Cheque',date:'26 Feb 2025',status:'Cleared'},
+  {id:'RCP-2503',cust:'Tej Pratap',proj:'JR One East',ms:'10% Down Payment',amt:'₹38.5L',mode:'RTGS',date:'20 Feb 2025',status:'Cleared'},
+  {id:'RCP-2504',cust:'Srinivasa Rao',proj:'JR Queenstown',ms:'Installment 1',amt:'₹14L',mode:'NEFT',date:'15 Feb 2025',status:'Cleared'},
+  {id:'RCP-2505',cust:'Muthukumar V.P.',proj:'JR Club Class',ms:'Booking Amount',amt:'₹2L',mode:'DD',date:'10 Feb 2025',status:'Pending'},
+  {id:'RCP-2506',cust:'Riya Singh',proj:'JR Queenstown',ms:'Booking Amount',amt:'₹3L',mode:'NEFT',date:'28 Feb 2025',status:'Cleared'},
+  {id:'RCP-2507',cust:'K.R. Shantha',proj:'JR One East',ms:'Booking Amount',amt:'₹20L',mode:'RTGS',date:'5 Mar 2025',status:'Cleared'},
+];
+
+const CUSTOMERS=[
+  {name:'Tony John',prop:'Villa-08',proj:'JR One East',date:'5 Sep 2024',val:'₹4.10Cr',paid:'₹4.10Cr',bal:'₹0',status:'Registered'},
+  {name:'Galam Sunil Yadav',prop:'Plot-245, 246',proj:'JR Eastfields',date:'2 Dec 2024',val:'₹1.92Cr',paid:'₹1.92Cr',bal:'₹0',status:'Registered'},
+  {name:'Srinivasa Rao Golla',prop:'Plot-118,119,120',proj:'JR Queenstown',date:'20 Nov 2024',val:'₹1.68Cr',paid:'₹1.00Cr',bal:'₹0.68Cr',status:'Active'},
+  {name:'Tej Pratap',prop:'Villa-12',proj:'JR One East',date:'15 Jan 2025',val:'₹3.85Cr',paid:'₹1.20Cr',bal:'₹2.65Cr',status:'Active'},
+  {name:'Muthukumar V.P.',prop:'Plot-85',proj:'JR Club Class',date:'10 Feb 2025',val:'₹88L',paid:'₹44L',bal:'₹44L',status:'Active'},
+  {name:'Riya Singh',prop:'Plot-302',proj:'JR Queenstown',date:'28 Feb 2025',val:'₹62L',paid:'₹31L',bal:'₹31L',status:'Docs Pending'},
+  {name:'Rao Sadhureddy',prop:'Plot-1145,1146',proj:'JR Eastfields',date:'12 Oct 2024',val:'₹1.40Cr',paid:'₹1.40Cr',bal:'₹0',status:'Registered'},
+  {name:'Srinivasan Sarangapani',prop:'Plot-87',proj:'JR Club Class',date:'3 Aug 2024',val:'₹92L',paid:'₹92L',bal:'₹0',status:'Registered'},
+  {name:'K.R. Shantha',prop:'Villa-03',proj:'JR One East',date:'5 Mar 2025',val:'₹3.20Cr',paid:'₹0.80Cr',bal:'₹2.40Cr',status:'Active'},
+];
+
+const CAMPAIGNS=[
+  {name:'JR One East — FB Launch',ch:'Facebook Ads',proj:'JR One East',spend:'₹2.4L',leads:182,cpl:'₹1,319',conv:12,rev:'₹4.2Cr',roas:'17.5×',status:'Active'},
+  {name:'Eastfields Google Search',ch:'Google Ads',proj:'JR Eastfields',spend:'₹1.8L',leads:156,cpl:'₹1,154',conv:10,rev:'₹2.8Cr',roas:'15.6×',status:'Active'},
+  {name:'Queenstown Meta',ch:'Instagram',proj:'JR Queenstown',spend:'₹0.9L',leads:98,cpl:'₹919',conv:6,rev:'₹1.2Cr',roas:'13.3×',status:'Paused'},
+  {name:'Club Class — 99acres',ch:'99acres',proj:'JR Club Class',spend:'₹1.2L',leads:142,cpl:'₹845',conv:8,rev:'₹2.0Cr',roas:'16.7×',status:'Active'},
+  {name:'Waterfront Launch',ch:'Facebook Ads',proj:'JR Waterfront',spend:'₹1.4L',leads:88,cpl:'₹1,591',conv:4,rev:'₹1.0Cr',roas:'7.1×',status:'Active'},
+  {name:'Referral Program',ch:'Email / WA',proj:'All Projects',spend:'₹0.7L',leads:112,cpl:'₹625',conv:14,rev:'₹3.6Cr',roas:'51.4×',status:'Active'},
+];
+
+const TEAM=[
+  {name:'Suresh K',role:'Senior Sales Manager',phone:'+91 98450 12345',email:'suresh@jrhousing.com',leads:42,conv:12,target:'₹5Cr',achieved:'₹4.2Cr',pct:84,proj:'JR One East, Eastfields'},
+  {name:'Priya M',role:'Sales Executive',phone:'+91 87340 67890',email:'priya@jrhousing.com',leads:38,conv:9,target:'₹3Cr',achieved:'₹2.8Cr',pct:93,proj:'JR One East, Queenstown'},
+  {name:'Ravi S',role:'Sales Executive',phone:'+91 97310 23456',email:'ravi@jrhousing.com',leads:31,conv:7,target:'₹3Cr',achieved:'₹2.1Cr',pct:70,proj:'JR Club Class, Eastfields'},
+  {name:'Anita J',role:'CRM Manager',phone:'+91 76540 34567',email:'anita@jrhousing.com',leads:37,conv:10,target:'₹4Cr',achieved:'₹3.8Cr',pct:95,proj:'All Projects'},
+  {name:'Niranjan Reddy',role:'Director',phone:'+91 95906 16616',email:'niranjan@jrhousing.com',leads:0,conv:32,target:'—',achieved:'₹14.2Cr',pct:100,proj:'All Projects'},
+];
+
+const SVS=[
+  {name:'Rajesh Kumar',proj:'JR One East',dt:'6 Mar 2025, 10:00 AM',agent:'Suresh K',transport:'Company Cab',status:'Confirmed'},
+  {name:'Priya Sharma',proj:'JR Eastfields',dt:'6 Mar 2025, 02:00 PM',agent:'Priya M',transport:'Self',status:'Confirmed'},
+  {name:'Vikram Singh',proj:'JR Club Class',dt:'6 Mar 2025, 04:00 PM',agent:'Ravi S',transport:'Company Cab',status:'Pending'},
+  {name:'Ananya Reddy',proj:'JR Queenstown',dt:'7 Mar 2025, 11:00 AM',agent:'Anita J',transport:'Self',status:'Confirmed'},
+  {name:'Suresh Patel',proj:'JR One East',dt:'7 Mar 2025, 03:00 PM',agent:'Suresh K',transport:'Own Vehicle',status:'Pending'},
+  {name:'Meera Nair',proj:'JR Waterfront',dt:'8 Mar 2025, 10:00 AM',agent:'Priya M',transport:'Company Cab',status:'Confirmed'},
+  {name:'Deepak Chandra',proj:'JR Club Class',dt:'10 Mar 2025, 02:00 PM',agent:'Ravi S',transport:'Self',status:'Pending'},
+];
+
+const NOTIFS=[
+  {t:'🔴 Overdue Follow-up',d:'Kiran Rao — JR Eastfields follow-up overdue 2 days',ts:'2h ago',unr:true},
+  {t:'✅ Booking Confirmed',d:'Riya Singh booked Plot-302 at JR Queenstown',ts:'4h ago',unr:true},
+  {t:'💰 Payment Received',d:'Tony John cleared final payment — ₹85L',ts:'Yesterday',unr:true},
+  {t:'👥 New Lead Walk-in',d:'New walk-in at JR One East site office — assigned Suresh K',ts:'Yesterday',unr:false},
+  {t:'📣 Campaign Alert',d:'JR Waterfront CPL ₹1,591 — above ₹1,200 target',ts:'2 days ago',unr:false},
+  {t:'🗓️ Site Visits Today',d:'6 site visits scheduled. First at 10:00 AM',ts:'Today 8:00 AM',unr:true},
+  {t:'📋 Doc Pending',d:'Riya Singh — KYC documents not received',ts:'3 days ago',unr:false},
+];
+
+const ACT=[
+  {ic:'✅',t:'<strong>Booking confirmed</strong> — Riya Singh, JR Queenstown Plot-302',ts:'1h ago',c:'var(--grn)'},
+  {ic:'💰',t:'<strong>Payment ₹85L received</strong> — Tony John final payment cleared',ts:'3h ago',c:'var(--grn)'},
+  {ic:'📞',t:'<strong>Follow-up done</strong> — Rajesh Kumar · Site Visit booked for tomorrow',ts:'4h ago',c:'var(--blu)'},
+  {ic:'👥',t:'<strong>New lead added</strong> — Walk-in at JR One East site office',ts:'5h ago',c:'var(--gold)'},
+  {ic:'🗓️',t:'<strong>Site visit scheduled</strong> — Meera Nair, JR Waterfront Mar 8',ts:'Yesterday',c:'var(--prp)'},
+  {ic:'📣',t:'<strong>Campaign launched</strong> — JR One East Facebook Ads Phase 2',ts:'2 days ago',c:'var(--orn)'},
+];
+
+// ════════════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════════════
+const TITLES={dashboard:'Dashboard',leads:'Lead Management',pipeline:'Pipeline Kanban',followups:'Follow-ups',sitevisits:'Site Visits',bookings:'Bookings & Deals',projects:'Projects',inventory:'Plot Inventory',payments:'Payments',reports:'Analytics',customers:'Customers',campaigns:'Campaigns',team:'Team',settings:'Settings'};
+
+function nav(pg){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  const el=document.getElementById('pg-'+pg);
+  if(el)el.classList.add('on');
+  document.querySelectorAll('.ni').forEach(n=>{if(n.getAttribute('onclick')===`nav('${pg}')`){n.classList.add('active')}});
+  document.getElementById('tb-title').textContent=TITLES[pg]||pg;
+  document.getElementById('tb-bc').textContent='JR Housing · '+(TITLES[pg]||pg);
+  const map={leads:loadLeads,pipeline:loadPipeline,followups:()=>loadFU('overdue'),sitevisits:loadSV,bookings:loadBookings,projects:loadProjects,inventory:loadInventory,payments:loadPayments,reports:loadReports,customers:loadCustomers,campaigns:loadCampaigns,team:loadTeam,settings:loadSettings};
+  if(map[pg])map[pg]();
+}
+
+// ════════════════════════════════════════════════
+// DASHBOARD INIT
+// ════════════════════════════════════════════════
+function initDash(){
+  // Revenue chart
+  const months=['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
+  const coll=[85,92,110,78,125,142,98,165,180,88,145,192];
+  const pend=[20,15,30,45,22,35,55,28,20,65,40,38];
+  const mx=Math.max(...coll,...pend);
+  document.getElementById('revChart').innerHTML=months.map((m,i)=>`
+    <div class="rc-bar">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;align-self:flex-end;width:100%">
+        <div class="rc-fill rc-coll" style="height:${(coll[i]/mx*120).toFixed(0)}px"></div>
+        <div class="rc-fill rc-pend" style="height:${(pend[i]/mx*120).toFixed(0)}px"></div>
+      </div>
+      <div class="rc-lbl">${m}</div>
+    </div>`).join('');
+
+  // Project lead interest
+  document.getElementById('projLeads').innerHTML=PROJECTS.map(p=>`
+    <div style="margin-bottom:6px">
+      <div style="display:flex;justify-content:space-between;font-size:.7rem;margin-bottom:3px">
+        <span style="color:var(--t2)">${p.name}</span><strong>${p.leads} leads</strong>
+      </div>
+      <div class="pb"><div class="pb-f" style="width:${Math.round(p.leads/42*100)}%"></div></div>
+    </div>`).join('');
+
+  // Activity
+  document.getElementById('dashActivity').innerHTML=ACT.map(a=>`
+    <div class="tl-it">
+      <div class="tl-dot" style="border-color:${a.c};color:${a.c}">${a.ic}</div>
+      <div class="tl-body"><div class="tl-txt">${a.t}</div><div class="tl-time">${a.ts}</div></div>
+    </div>`).join('');
+
+  // Today schedule
+  const sched=[
+    {t:'10:00 AM',lbl:'Site Visit',sub:'Rajesh Kumar — JR One East',ic:'🏗️',c:'var(--grn)'},
+    {t:'11:30 AM',lbl:'Follow-up Call',sub:'Priya Sharma — JR Eastfields',ic:'📞',c:'var(--blu)'},
+    {t:'02:00 PM',lbl:'Site Visit',sub:'Vikram Singh — JR Club Class',ic:'🏗️',c:'var(--grn)'},
+    {t:'04:00 PM',lbl:'Booking Meeting',sub:'K.R. Shantha — JR One East',ic:'📋',c:'var(--gold)'},
+  ];
+  document.getElementById('dashSchedule').innerHTML=sched.map(s=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--b);border-radius:10px;background:var(--surf2)">
+      <span style="font-size:1.1rem">${s.ic}</span>
+      <div style="flex:1"><div style="font-size:.78rem;font-weight:700">${s.lbl}</div><div style="font-size:.68rem;color:var(--mu)">${s.sub}</div></div>
+      <span style="font-size:.68rem;font-weight:700;color:${s.c};white-space:nowrap">${s.t}</span>
+    </div>`).join('');
+
+  // Hot leads
+  const hot=LEADS.filter(l=>l.priority==='High'&&l.status!=='Booked'&&l.status!=='Lost').slice(0,6);
+  document.getElementById('dashHotLeads').innerHTML=hot.map(l=>`
+    <tr onclick="showLeadDetail('${l.id}')">
+      <td><div style="font-weight:700;color:var(--t)">${l.name}</div><div style="font-size:.64rem;color:var(--mu)">${l.id}</div></td>
+      <td><span style="font-size:.7rem;color:var(--gold);font-weight:600">${l.project}</span></td>
+      <td><span style="font-family:var(--fm);font-size:.72rem;font-weight:700">${l.budget}</span></td>
+      <td><span class="bdg ${SC[l.status]||'bg-grey'}">${l.status}</span></td>
+      <td><span style="font-size:.68rem;color:var(--mu)">${l.lastContact}</span></td>
+    </tr>`).join('');
+
+  // Project health
+  document.getElementById('dashProjHealth').innerHTML=PROJECTS.map(p=>`
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+        <span style="font-size:.76rem;font-weight:700">${p.name}</span>
+        <span style="font-size:.68rem;color:var(--mu)">${p.sold}/${p.units} sold</span>
+      </div>
+      <div class="pb"><div class="pb-f" style="width:${p.pct}%"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:2px">
+        <span style="font-size:.62rem;color:var(--grn)">▲ ${p.avail} available</span>
+        <span style="font-size:.62rem;color:var(--gold);font-weight:600">${p.rev}</span>
+      </div>
+    </div>`).join('');
+}
+
+// ════════════════════════════════════════════════
+// LEADS
+// ════════════════════════════════════════════════
+let filtL=[],lPage=1;const LPP=15;
+function loadLeads(flt=null){filtL=flt?LEADS.filter(flt):[...LEADS];lPage=1;renderLeads();}
+function filterLeads(){
+  const s=document.getElementById('lsearch')?.value.toLowerCase()||'';
+  const st=document.getElementById('lf-status')?.value||'';
+  const pj=document.getElementById('lf-proj')?.value||'';
+  const sr=document.getElementById('lf-src')?.value||'';
+  const ag=document.getElementById('lf-agent')?.value||'';
+  filtL=LEADS.filter(l=>
+    (!s||l.name.toLowerCase().includes(s)||l.phone.includes(s)||l.email.toLowerCase().includes(s))&&
+    (!st||l.status===st)&&(!pj||l.project===pj)&&(!sr||l.source===sr)&&(!ag||l.agent===ag));
+  lPage=1;renderLeads();
+}
+function setLTab(t,el){
+  document.querySelectorAll('#leadTabs .tab').forEach(x=>x.classList.remove('on'));el.classList.add('on');
+  const map={all:null,hot:l=>l.priority==='High',today:()=>true,overdue:l=>['New','Contacted'].includes(l.status),lost:l=>l.status==='Lost'};
+  loadLeads(map[t]);
+}
+function sortLeads(v){
+  if(v.includes('Budget ↑'))filtL.sort((a,b)=>a.budget.localeCompare(b.budget));
+  else if(v.includes('Budget ↓'))filtL.sort((a,b)=>b.budget.localeCompare(a.budget));
+  else if(v==='Oldest')filtL.reverse();
+  renderLeads();
+}
+function selAll(cb){document.querySelectorAll('.lcb').forEach(c=>c.checked=cb.checked)}
+function renderLeads(){
+  const s=(lPage-1)*LPP,pg=filtL.slice(s,s+LPP);
+  const avt=n=>{const p=n.split(' ');return(p[0]?.[0]||'')+(p[1]?.[0]||'');};
+  document.getElementById('leadsTable').innerHTML=pg.map(l=>`
+    <tr onclick="showLeadDetail('${l.id}')">
+      <td onclick="event.stopPropagation()"><input type="checkbox" class="lcb" value="${l.id}"/></td>
+      <td><div style="font-weight:700;color:var(--t)">${l.name}</div><div style="font-size:.62rem;color:var(--mu)">${l.id}</div></td>
+      <td><div style="font-size:.74rem">${l.phone}</div><div style="font-size:.62rem;color:var(--mu)">${l.email}</div></td>
+      <td><span style="font-size:.72rem;color:var(--gold);font-weight:600">${l.project}</span></td>
+      <td><span style="font-family:var(--fm);font-size:.72rem;font-weight:700">${l.budget}</span></td>
+      <td><span class="bdg bg-grey">${l.source}</span></td>
+      <td><span class="bdg ${SC[l.status]||'bg-grey'}">${l.status}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:5px">
+          <div style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--gold),#c07020);display:flex;align-items:center;justify-content:center;font-size:.54rem;font-weight:800;color:#fff;flex-shrink:0">${avt(l.agent)}</div>
+          <span style="font-size:.72rem">${l.agent}</span>
+        </div>
+      </td>
+      <td><span style="font-size:.68rem;color:var(--mu)">${l.date}</span></td>
+      <td onclick="event.stopPropagation()">
+        <div style="display:flex;gap:3px">
+          <button class="btn btn-g btn-xs" onclick="showLeadDetail('${l.id}')" title="View">👁</button>
+          <button class="btn btn-g btn-xs" onclick="openM('mAddFU')" title="Follow-up">🔔</button>
+        </div>
+      </td>
+    </tr>`).join('');
+  document.getElementById('lcnt').textContent=`(${filtL.length})`;
+  document.getElementById('lpInfo').textContent=`Showing ${s+1}–${Math.min(s+LPP,filtL.length)} of ${filtL.length}`;
+  buildLPag();
+}
+function buildLPag(){
+  const tot=Math.ceil(filtL.length/LPP),el=document.getElementById('lpPag');
+  let h=`<button class="btn btn-s btn-xs" onclick="gLPage(${lPage-1})" ${lPage===1?'disabled':''}>‹</button>`;
+  for(let i=1;i<=Math.min(tot,6);i++)h+=`<button class="btn btn-xs ${i===lPage?'btn-p':'btn-s'}" onclick="gLPage(${i})">${i}</button>`;
+  h+=`<button class="btn btn-s btn-xs" onclick="gLPage(${lPage+1})" ${lPage===Math.ceil(filtL.length/LPP)?'disabled':''}>›</button>`;
+  el.innerHTML=h;
+}
+function gLPage(p){const t=Math.ceil(filtL.length/LPP);if(p<1||p>t)return;lPage=p;renderLeads();}
+
+// ════════════════════════════════════════════════
+// LEAD DETAIL
+// ════════════════════════════════════════════════
+function showLeadDetail(id){
+  const l=LEADS.find(x=>x.id===id);if(!l)return;
+  document.getElementById('ld-name').textContent=l.name;
+  document.getElementById('ld-badge').innerHTML=`<span class="bdg ${SC[l.status]||'bg-grey'}">${l.status}</span>`;
+  document.getElementById('ld-cinfo').innerHTML=[
+    ['Name',l.name],['Phone',l.phone],['Email',l.email],
+    ['City',l.city],['Lead ID',l.id],['Source',l.source],['Created',l.date],['Last Contact',l.lastContact]
+  ].map(([k,v])=>`<div class="ir"><span class="ik">${k}</span><span class="iv">${v}</span></div>`).join('');
+  document.getElementById('ld-pinfo').innerHTML=[
+    ['Project',`<span style="color:var(--gold);font-weight:700">${l.project}</span>`],
+    ['Budget',`<span style="font-family:var(--fm)">${l.budget}</span>`],
+    ['Agent',l.agent],['Priority',l.priority],['Notes',l.notes]
+  ].map(([k,v])=>`<div class="ir"><span class="ik">${k}</span><span class="iv" style="text-align:left;max-width:62%">${v}</span></div>`).join('');
+  document.getElementById('ld-status').value=l.status;
+  document.getElementById('ld-timeline').innerHTML=l.timeline.map(t=>`
+    <div class="tl-it">
+      <div class="tl-dot">${t.ic}</div>
+      <div class="tl-body"><div class="tl-txt">${t.txt}</div><div class="tl-time">${t.tm}</div></div>
+    </div>`).join('');
+  openM('mLeadDetail');
+}
+function updateLead(){toast('success','✅ Lead updated successfully');closeM('mLeadDetail');}
+
+// ════════════════════════════════════════════════
+// PIPELINE
+// ════════════════════════════════════════════════
+function loadPipeline(){
+  const stages=[
+    {lbl:'New',col:'var(--blu)',bg:'var(--blu2)',key:'New'},
+    {lbl:'Contacted',col:'var(--gold)',bg:'var(--gold3)',key:'Contacted'},
+    {lbl:'Interested',col:'var(--prp)',bg:'var(--prp2)',key:'Interested'},
+    {lbl:'Site Visit',col:'var(--orn)',bg:'var(--orn2)',key:'Site Visit Scheduled'},
+    {lbl:'Negotiation',col:'var(--red)',bg:'var(--red2)',key:'Negotiation'},
+    {lbl:'Booked ✅',col:'var(--grn)',bg:'var(--grn2)',key:'Booked'},
+  ];
+  const avt=n=>{const p=n.split(' ');return(p[0]?.[0]||'')+(p[1]?.[0]||'');};
+  document.getElementById('pipeBoard').innerHTML=stages.map(s=>{
+    const cards=LEADS.filter(l=>l.status===s.key);
+    return `<div class="pipe-col">
+      <div class="pipe-col-h">
+        <span style="color:${s.col}">${s.lbl}</span>
+        <div class="pipe-cnt" style="background:${s.bg};color:${s.col}">${cards.length}</div>
+      </div>
+      <div class="pipe-cards">
+        ${cards.slice(0,10).map(l=>`
+          <div class="kc" onclick="showLeadDetail('${l.id}')">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px">
+              <div class="kc-nm">${l.name}</div>
+              <div class="kc-av">${avt(l.agent)}</div>
+            </div>
+            <div class="kc-pj">${l.project}</div>
+            <div class="kc-ft">
+              <div class="kc-v">${l.budget}</div>
+              <div class="kc-s">${l.source}</div>
+            </div>
+          </div>`).join('')}
+        ${cards.length>10?`<div style="text-align:center;font-size:.68rem;color:var(--mu);padding:6px">+${cards.length-10} more</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════════════
+// FOLLOW-UPS
+// ════════════════════════════════════════════════
+function loadFU(tab){
+  const rows=FU.filter(f=>tab==='all'||f.tab===tab);
+  const pc={'High':'<span style="color:var(--red);font-weight:700">🔴 High</span>','Medium':'<span style="color:var(--orn);font-weight:700">🟡 Med</span>','Low':'<span style="color:var(--grn);font-weight:700">🟢 Low</span>'};
+  document.getElementById('fuTable').innerHTML=rows.map(f=>`
+    <tr>
+      <td><div style="font-weight:700">${f.lead}</div></td>
+      <td><span style="color:var(--gold);font-size:.72rem;font-weight:600">${f.proj}</span></td>
+      <td><span class="bdg bg-grey">${f.type}</span></td>
+      <td><span style="font-family:var(--fm);font-size:.72rem">${f.dt}</span></td>
+      <td>${f.agent}</td>
+      <td>${pc[f.pri]||f.pri}</td>
+      <td style="max-width:160px;font-size:.68rem;color:var(--mu)">${f.notes}</td>
+      <td>
+        <div style="display:flex;gap:3px">
+          <button class="btn btn-p btn-xs" onclick="toast('success','✅ Marked done')">✓ Done</button>
+          <button class="btn btn-s btn-xs" onclick="openM('mAddFU')">↻</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+function setFUTab(t,el){
+  document.querySelectorAll('#pg-followups .tab').forEach(x=>x.classList.remove('on'));el.classList.add('on');loadFU(t);
+}
+
+// ════════════════════════════════════════════════
+// SITE VISITS
+// ════════════════════════════════════════════════
+function loadSV(){
+  document.getElementById('svList').innerHTML=SVS.map(v=>{
+    const pts=v.dt.split(',');const dd=pts[0].split(' ');
+    return `<div class="sv">
+      <div class="sv-dt"><div class="sv-dd">${dd[0]}</div><div class="sv-dm">${(dd[1]||'Mar')+' '+(dd[2]||'2025')}</div></div>
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:.84rem">${v.name}</div>
+        <div style="font-size:.72rem;color:var(--gold);font-weight:600;margin:1px 0">${v.proj}</div>
+        <div style="font-size:.68rem;color:var(--mu)">${pts[1]?.trim()||''} · ${v.agent} · ${v.transport}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
+        <span class="bdg ${v.status==='Confirmed'?'bg-green':'bg-orange'}">${v.status}</span>
+        <button class="btn btn-g btn-xs" onclick="toast('info','📍 Opening map...')">📍 Map</button>
+      </div>
+    </div>`;
+  }).join('');
+  // Build calendar
+  const el=document.getElementById('svCal');
+  let h='';
+  // March 2025 starts on Saturday (day 6)
+  for(let i=0;i<6;i++)h+=`<div class="cal-d om"></div>`;
+  for(let d=1;d<=31;d++){
+    const hasEv=SVS.some(v=>v.dt.startsWith(d+' Mar'));
+    h+=`<div class="cal-d ${d===6?'tod':''} ${hasEv?'has':''}" onclick="toast('info','📅 ${d} March — ${SVS.filter(v=>v.dt.startsWith(d+' Mar')).length} visit(s)')">${d}</div>`;
+  }
+  el.innerHTML=h;
+}
+
+// ════════════════════════════════════════════════
+// BOOKINGS
+// ════════════════════════════════════════════════
+function loadBookings(){
+  document.getElementById('bkTable').innerHTML=BOOKINGS.map(b=>`
+    <tr>
+      <td><span style="font-family:var(--fm);font-size:.72rem;font-weight:700;color:var(--gold)">${b.id}</span></td>
+      <td><span style="font-weight:700">${b.cust}</span></td>
+      <td><span style="color:var(--gold);font-weight:600;font-size:.72rem">${b.proj}</span></td>
+      <td><span style="font-family:var(--fm);font-size:.72rem">${b.unit}</span></td>
+      <td><span style="font-family:var(--fm);font-weight:800">${b.val}</span></td>
+      <td><span style="color:var(--grn);font-weight:700">${b.paid}</span></td>
+      <td><span style="color:${b.bal==='₹0'?'var(--mu)':'var(--red)'};font-weight:700">${b.bal}</span></td>
+      <td><span class="bdg ${b.status==='Registered'?'bg-green':b.status==='Docs Pending'?'bg-orange':'bg-blue'}">${b.status}</span></td>
+      <td><span style="font-size:.68rem;color:var(--mu)">${b.date}</span></td>
+      <td>
+        <div style="display:flex;gap:3px">
+          <button class="btn btn-g btn-xs">👁</button>
+          <button class="btn btn-p btn-xs" onclick="openM('mAddPay')">💰</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+// ════════════════════════════════════════════════
+// PROJECTS
+// ════════════════════════════════════════════════
+function loadProjects(){
+  document.getElementById('projGrid').innerHTML=PROJECTS.map(p=>`
+    <div class="pj-card">
+      <div class="pj-banner">
+        <div class="pj-type">${p.type}</div>
+        <div class="pj-name">${p.name}</div>
+        <div class="pj-loc">${p.loc}</div>
+      </div>
+      <div class="card-b" style="padding:14px">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;text-align:center">
+          <div style="padding:7px;background:var(--grn2);border-radius:7px">
+            <div style="font-size:1.15rem;font-weight:800;color:var(--grn);font-family:var(--fd)">${p.avail}</div>
+            <div style="font-size:.58rem;color:var(--mu);text-transform:uppercase;letter-spacing:.4px">Available</div>
+          </div>
+          <div style="padding:7px;background:var(--gold3);border-radius:7px">
+            <div style="font-size:1.15rem;font-weight:800;color:var(--gold);font-family:var(--fd)">${p.block}</div>
+            <div style="font-size:.58rem;color:var(--mu);text-transform:uppercase;letter-spacing:.4px">Blocked</div>
+          </div>
+          <div style="padding:7px;background:var(--red2);border-radius:7px">
+            <div style="font-size:1.15rem;font-weight:800;color:var(--red);font-family:var(--fd)">${p.sold}</div>
+            <div style="font-size:.58rem;color:var(--mu);text-transform:uppercase;letter-spacing:.4px">Sold</div>
+          </div>
+        </div>
+        <div style="margin-bottom:9px">
+          <div style="display:flex;justify-content:space-between;font-size:.68rem;margin-bottom:3px">
+            <span style="color:var(--mu)">Sales Progress</span>
+            <strong style="color:var(--t)">${p.pct}%</strong>
+          </div>
+          <div class="pb"><div class="pb-f" style="width:${p.pct}%"></div></div>
+        </div>
+        <div style="font-size:.7rem;display:flex;justify-content:space-between;margin-bottom:6px">
+          <span style="color:var(--mu)">Price:</span><strong>${p.minP} – ${p.maxP}</strong>
+        </div>
+        <div style="font-size:.7rem;display:flex;justify-content:space-between;margin-bottom:8px">
+          <span style="color:var(--mu)">Revenue:</span><strong style="color:var(--grn)">${p.rev}</strong>
+        </div>
+        <div style="font-size:.58rem;color:var(--mu);font-family:var(--fm);margin-bottom:10px">${p.rera}</div>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-p btn-sm" style="flex:1" onclick="openM('mAddLead')">+ Add Lead</button>
+          <button class="btn btn-s btn-sm" onclick="nav('inventory')">Inventory</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ════════════════════════════════════════════════
+// INVENTORY
+// ════════════════════════════════════════════════
+function loadInventory(){
+  const pn=document.getElementById('invProj')?.value||'JR One East';
+  const p=PROJECTS.find(x=>x.name===pn)||PROJECTS[0];
+  document.getElementById('inv-a').textContent=p.avail;
+  document.getElementById('inv-b').textContent=p.block;
+  document.getElementById('inv-s').textContent=p.sold;
+  document.getElementById('inv-t').textContent=p.units;
+  const st=[];
+  for(let i=0;i<p.sold;i++)st.push('sold');
+  for(let i=0;i<p.block;i++)st.push('blocked');
+  for(let i=0;i<p.avail;i++)st.push('available');
+  // shuffle
+  for(let i=st.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[st[i],st[j]]=[st[j],st[i]];}
+  document.getElementById('invGrid').innerHTML=st.slice(0,Math.min(st.length,150)).map((s,i)=>`
+    <div class="inv-cell inv-${s==='available'?'av':s==='blocked'?'bk':'sl'}" title="Plot ${i+1} — ${s}" onclick="toast('info','Plot ${i+1}: ${s.charAt(0).toUpperCase()+s.slice(1)}')">${i+1}</div>`).join('');
+}
+
+// ════════════════════════════════════════════════
+// PAYMENTS
+// ════════════════════════════════════════════════
+function loadPayments(){
+  document.getElementById('payTable').innerHTML=PAYMENTS.map(p=>`
+    <tr>
+      <td><span style="font-family:var(--fm);font-weight:700;color:var(--gold)">${p.id}</span></td>
+      <td><span style="font-weight:700">${p.cust}</span></td>
+      <td><span style="color:var(--gold);font-weight:600;font-size:.72rem">${p.proj}</span></td>
+      <td>${p.ms}</td>
+      <td><span style="font-family:var(--fm);font-weight:800;font-size:.84rem">${p.amt}</span></td>
+      <td><span class="bdg bg-grey">${p.mode}</span></td>
+      <td><span style="font-size:.68rem;color:var(--mu)">${p.date}</span></td>
+      <td><span class="bdg ${p.status==='Cleared'?'bg-green':'bg-orange'}">${p.status}</span></td>
+      <td><button class="btn btn-g btn-xs" onclick="toast('info','🖨️ Generating receipt…')">🖨 Receipt</button></td>
+    </tr>`).join('');
+}
+
+// ════════════════════════════════════════════════
+// REPORTS
+// ════════════════════════════════════════════════
+function loadReports(){
+  // Funnel
+  const funnelStages=[['New Leads',148,100],['Contacted',112,76],['Interested',78,53],['Site Visit',45,30],['Negotiation',38,26],['Booked',32,22]];
+  document.getElementById('rFunnel').innerHTML=funnelStages.map(([l,n,w])=>`
+    <div class="funnel-bar">
+      <div class="funnel-lbl">${l}</div>
+      <div class="funnel-fill" style="width:${w*1.4}px"><span class="funnel-n">${n}</span></div>
+    </div>`).join('');
+
+  // Top performers
+  document.getElementById('rPerf').innerHTML=TEAM.slice(0,4).map((t,i)=>`
+    <div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--b)">
+      <div style="font-weight:800;color:var(--mu);width:16px;font-size:.76rem">${i+1}</div>
+      <div style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--gold),#c07020);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;color:#fff">${t.name[0]}</div>
+      <div style="flex:1"><div style="font-size:.76rem;font-weight:700">${t.name}</div><div style="font-size:.64rem;color:var(--mu)">${t.conv} conversions</div></div>
+      <div style="text-align:right"><div style="font-size:.76rem;font-weight:700;color:var(--grn)">${t.achieved}</div><div class="pb" style="width:72px;margin-top:3px"><div class="pb-f" style="width:${t.pct}%"></div></div></div>
+    </div>`).join('');
+
+  // Campaign ROI
+  document.getElementById('rCamp').innerHTML=CAMPAIGNS.slice(0,5).map(c=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--b);font-size:.74rem">
+      <div><div style="font-weight:600">${c.name}</div><div style="font-size:.64rem;color:var(--mu)">${c.ch}</div></div>
+      <span style="font-weight:800;color:var(--grn)">${c.roas}</span>
+    </div>`).join('');
+
+  // Rev by project
+  const maxR=4.2;
+  document.getElementById('rRevProj').innerHTML=`
+    <div style="display:flex;align-items:flex-end;gap:8px;height:130px;padding-top:8px">
+      ${PROJECTS.map(p=>{
+        const h=parseFloat(p.rev.replace(/[^0-9.]/g,''))*28;
+        return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
+          <div style="width:100%;border-radius:5px 5px 0 0;background:linear-gradient(180deg,var(--gold),var(--gold2));height:${h}px;transition:.5s"></div>
+          <div style="font-size:.58rem;color:var(--mu);font-family:var(--fm);text-align:center">${p.name.split(' ').slice(-1)[0]}<br>${p.rev}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+
+  // Conversion chart
+  const months=['Oct','Nov','Dec','Jan','Feb','Mar'];const rates=[18,22,19,24,20,23];
+  document.getElementById('rConv').innerHTML=`
+    <div style="display:flex;align-items:flex-end;gap:8px;height:130px;padding-top:8px">
+      ${months.map((m,i)=>`
+        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
+          <div style="width:100%;border-radius:5px 5px 0 0;background:linear-gradient(180deg,var(--blu),#60a5fa);height:${rates[i]*4}px;transition:.5s"></div>
+          <div style="font-size:.58rem;color:var(--mu);font-family:var(--fm);text-align:center">${m}<br>${rates[i]}%</div>
+        </div>`).join('')}
+    </div>`;
+}
+
+// ════════════════════════════════════════════════
+// CUSTOMERS
+// ════════════════════════════════════════════════
+function loadCustomers(){
+  document.getElementById('custTable').innerHTML=CUSTOMERS.map(c=>`
+    <tr>
+      <td><div style="font-weight:700">${c.name}</div></td>
+      <td><span style="font-family:var(--fm);font-size:.72rem">${c.prop}</span></td>
+      <td><span style="color:var(--gold);font-weight:600;font-size:.72rem">${c.proj}</span></td>
+      <td><span style="font-size:.68rem;color:var(--mu)">${c.date}</span></td>
+      <td><span style="font-family:var(--fm);font-weight:800">${c.val}</span></td>
+      <td><span style="color:var(--grn);font-weight:700">${c.paid}</span></td>
+      <td><span style="color:${c.bal==='₹0'?'var(--mu)':'var(--red)'};font-weight:700">${c.bal}</span></td>
+      <td><span class="bdg ${c.status==='Registered'?'bg-green':c.status==='Docs Pending'?'bg-orange':'bg-blue'}">${c.status}</span></td>
+      <td>
+        <div style="display:flex;gap:3px">
+          <button class="btn btn-g btn-xs">👁</button>
+          <button class="btn btn-p btn-xs" onclick="openM('mAddPay')">💰</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+// ════════════════════════════════════════════════
+// CAMPAIGNS
+// ════════════════════════════════════════════════
+function loadCampaigns(){
+  document.getElementById('campTable').innerHTML=CAMPAIGNS.map(c=>`
+    <tr>
+      <td><div style="font-weight:700">${c.name}</div></td>
+      <td><span class="bdg bg-blue">${c.ch}</span></td>
+      <td><span style="color:var(--gold);font-weight:600;font-size:.72rem">${c.proj}</span></td>
+      <td><span style="font-family:var(--fm);font-weight:700">${c.spend}</span></td>
+      <td><span style="font-weight:700;color:var(--blu)">${c.leads}</span></td>
+      <td><span style="font-family:var(--fm)">${c.cpl}</span></td>
+      <td><span style="font-weight:700;color:var(--grn)">${c.conv}</span></td>
+      <td><span style="font-family:var(--fm);font-weight:800;color:var(--grn)">${c.rev}</span></td>
+      <td><span style="font-weight:800;color:var(--gold)">${c.roas}</span></td>
+      <td><span class="bdg ${c.status==='Active'?'bg-green':'bg-orange'}">${c.status}</span></td>
+    </tr>`).join('');
+}
+
+// ════════════════════════════════════════════════
+// TEAM
+// ════════════════════════════════════════════════
+function loadTeam(){
+  document.getElementById('teamGrid').innerHTML=TEAM.map(t=>`
+    <div class="tm-card">
+      <div class="tm-av">${t.name.split(' ').map(n=>n[0]).join('').slice(0,2)}</div>
+      <div style="font-weight:800;font-size:.9rem;margin-bottom:2px;font-family:var(--fd)">${t.name}</div>
+      <div style="font-size:.7rem;color:var(--gold);font-weight:600;margin-bottom:12px">${t.role}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px">
+        <div style="padding:7px;background:var(--bg);border-radius:7px;text-align:center">
+          <div style="font-size:1.05rem;font-weight:800;color:var(--blu);font-family:var(--fd)">${t.leads}</div>
+          <div style="font-size:.58rem;color:var(--mu)">Active Leads</div>
+        </div>
+        <div style="padding:7px;background:var(--bg);border-radius:7px;text-align:center">
+          <div style="font-size:1.05rem;font-weight:800;color:var(--grn);font-family:var(--fd)">${t.conv}</div>
+          <div style="font-size:.58rem;color:var(--mu)">Closed</div>
+        </div>
+      </div>
+      <div style="margin-bottom:9px">
+        <div style="display:flex;justify-content:space-between;font-size:.68rem;margin-bottom:3px">
+          <span style="color:var(--mu)">Target: ${t.target}</span><strong style="color:var(--grn)">${t.pct}%</strong>
+        </div>
+        <div class="pb"><div class="pb-f" style="width:${t.pct}%"></div></div>
+      </div>
+      <div style="font-size:.68rem;color:var(--mu)">${t.phone}</div>
+      <div style="font-size:.68rem;color:var(--blu);margin-top:1px">${t.email}</div>
+    </div>`).join('');
+}
+
+// ════════════════════════════════════════════════
+// SETTINGS
+// ════════════════════════════════════════════════
+function loadSettings(){
+  const prefs=[['New lead assigned','Notify when a lead is assigned'],['Follow-up due','Reminder 1hr before'],['Booking confirmed','On new booking'],['Payment received','On payment clearance'],['Daily summary','8 AM daily digest email']];
+  document.getElementById('notifPrefs').innerHTML=prefs.map(([l,d])=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b)">
+      <div><div style="font-size:.78rem;font-weight:600">${l}</div><div style="font-size:.68rem;color:var(--mu)">${d}</div></div>
+      <label class="stog"><input type="checkbox" checked onchange="toast('info','Setting updated')"><span class="stog-s"></span></label>
+    </div>`).join('');
+  document.getElementById('prefPanel').innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b)">
+      <span style="font-size:.78rem;font-weight:600">Dark Mode</span>
+      <label class="stog"><input type="checkbox"><span class="stog-s"></span></label>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b)">
+      <span style="font-size:.78rem;font-weight:600">Compact Sidebar</span>
+      <label class="stog"><input type="checkbox"><span class="stog-s"></span></label>
+    </div>
+    <div class="fg" style="margin-top:10px;margin-bottom:12px"><label class="fl">Currency</label><select class="fi"><option>INR (₹)</option><option>USD ($)</option></select></div>
+    <div class="fg" style="margin-bottom:12px"><label class="fl">Date Format</label><select class="fi"><option>DD/MM/YYYY</option><option>MM/DD/YYYY</option></select></div>
+    <button class="btn btn-p btn-sm" onclick="toast('success','✅ Preferences saved')">Save Preferences</button>`;
+}
+
+// ════════════════════════════════════════════════
+// SAVE LEAD
+// ════════════════════════════════════════════════
+function saveLead(){
+  const n=document.getElementById('al-n').value.trim();
+  if(!n){toast('error','⚠️ Name is required');return;}
+  const ph=document.getElementById('al-ph').value;
+  if(!ph){toast('error','⚠️ Phone is required');return;}
+  const newL={
+    id:'L'+(1100+LEADS.length),name:n,phone:ph,
+    email:document.getElementById('al-em').value,
+    city:document.getElementById('al-cy').value||'Bangalore',
+    source:document.getElementById('al-src').value,
+    project:document.getElementById('al-pj').value,
+    budget:document.getElementById('al-bg').value,
+    agent:document.getElementById('al-ag').value,
+    priority:document.getElementById('al-pr').value,
+    notes:document.getElementById('al-nt').value,
+    status:'New',date:new Date().toLocaleDateString('en-IN'),
+    lastContact:new Date().toLocaleDateString('en-IN'),
+    timeline:[{ic:'📥',txt:'<strong>Lead created</strong> — via '+document.getElementById('al-src').value,tm:new Date().toLocaleDateString('en-IN')}]
+  };
+  LEADS.unshift(newL);
+  document.getElementById('nb-leads').textContent=LEADS.filter(l=>l.status==='New').length;
+  document.getElementById('kpi-leads').textContent=LEADS.length;
+  closeM('mAddLead');
+  toast('success','✅ Lead "'+n+'" added successfully');
+  // Clear form
+  ['al-n','al-ph','al-em','al-cy','al-nt'].forEach(id=>document.getElementById(id).value='');
+  if(document.getElementById('pg-leads').classList.contains('on'))loadLeads();
+}
+
+// ════════════════════════════════════════════════
+// MODAL
+// ════════════════════════════════════════════════
+function openM(id){document.getElementById(id)?.classList.add('on')}
+function closeM(id){document.getElementById(id)?.classList.remove('on')}
+function closeSave(id,msg){closeM(id);toast('success',msg);}
+document.querySelectorAll('.mb').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('on')}));
+
+// ════════════════════════════════════════════════
+// NOTIFICATIONS
+// ════════════════════════════════════════════════
+function loadNotifs(){
+  document.getElementById('npList').innerHTML=NOTIFS.map(n=>`
+    <div class="np-it ${n.unr?'unr':''}">
+      <div class="ni-t">${n.t}</div>
+      <div class="ni-d">${n.d}</div>
+      <div class="ni-ts">${n.ts}</div>
+    </div>`).join('');
+}
+function toggleNP(){
+  document.getElementById('npPanel').classList.toggle('on');
+  document.getElementById('npBack').classList.toggle('on');
+}
+function clearNotifs(){
+  NOTIFS.forEach(n=>n.unr=false);loadNotifs();
+  document.querySelector('.ndot').style.display='none';
+}
+
+// ════════════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════════════
+function toast(type,msg){
+  const w=document.getElementById('toastWrap');
+  const d=document.createElement('div');d.className='toast';
+  const ic={success:'✅',error:'❌',info:'ℹ️'};
+  d.innerHTML=`<span class="t-ic ${type==='success'?'succ':type}">${ic[type]||'ℹ️'}</span><span>${msg}</span>`;
+  w.appendChild(d);
+  setTimeout(()=>{d.style.opacity='0';d.style.transform='translateX(16px)';d.style.transition='.3s';setTimeout(()=>d.remove(),300)},3000);
+}
+
+// ════════════════════════════════════════════════
+// GLOBAL SEARCH
+// ════════════════════════════════════════════════
+function gSearch(v){
+  if(v.length>2){
+    const f=LEADS.filter(l=>l.name.toLowerCase().includes(v.toLowerCase())||l.phone.includes(v));
+    if(f.length)toast('info',`Found ${f.length} lead(s) for "${v}"`);
+  }
+}
+
+// ════════════════════════════════════════════════
+// KEYBOARD
+// ════════════════════════════════════════════════
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    document.querySelectorAll('.mb.on').forEach(m=>m.classList.remove('on'));
+    document.getElementById('npPanel')?.classList.remove('on');
+    document.getElementById('npBack')?.classList.remove('on');
+  }
+  if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();document.querySelector('.tb-search input')?.focus();}
+});
+
+// ════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>{
+  initDash();
+  loadNotifs();
+  loadLeads();
+  document.getElementById('nb-leads').textContent=LEADS.filter(l=>l.status==='New').length;
+});
+</script>
+</body>
+</html>
