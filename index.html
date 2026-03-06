@@ -2236,3 +2236,164 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 </body>
 </html>
+
+/* ===================================================
+   ULTRA RESPONSIVE DESIGN (Mobile / Tablet / Desktop)
+   Add this at the END of your style section
+=================================================== */
+
+/* Large Desktop */
+@media (min-width:1400px){
+  .stats-grid{grid-template-columns:repeat(4,1fr);}
+  .cards-grid-3{grid-template-columns:repeat(3,1fr);}
+}
+
+/* Laptop */
+@media (max-width:1200px){
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .cards-grid-2{
+    grid-template-columns:1fr;
+  }
+
+  .search-box{
+    width:180px;
+  }
+
+}
+
+
+/* Tablet */
+@media (max-width:992px){
+
+  :root{
+    --sidebar-w:220px;
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .cards-grid-3{
+    grid-template-columns:1fr;
+  }
+
+  .topbar{
+    padding:0 15px;
+  }
+
+  .page-content{
+    padding:18px;
+  }
+
+}
+
+
+/* Small Tablet */
+@media (max-width:768px){
+
+  body{
+    overflow:auto;
+  }
+
+  .sidebar{
+    position:fixed;
+    left:-260px;
+    top:0;
+    height:100%;
+    transition:.3s;
+    z-index:999;
+  }
+
+  .sidebar.active{
+    left:0;
+  }
+
+  .main{
+    width:100%;
+  }
+
+  .topbar{
+    padding:0 12px;
+  }
+
+  .search-box{
+    display:none;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr;
+  }
+
+  .cards-grid-2{
+    grid-template-columns:1fr;
+  }
+
+  .quick-stats{
+    flex-direction:column;
+  }
+
+  .qs-item{
+    width:100%;
+  }
+
+  .kanban-board{
+    flex-direction:column;
+  }
+
+  .kanban-col{
+    min-width:100%;
+    max-width:100%;
+  }
+
+}
+
+
+/* Mobile */
+@media (max-width:480px){
+
+  html{
+    font-size:13px;
+  }
+
+  .topbar-title{
+    font-size:.9rem;
+  }
+
+  .topbar-sub{
+    font-size:.65rem;
+  }
+
+  .stat-value{
+    font-size:1.6rem;
+  }
+
+  .table-wrap{
+    overflow-x:auto;
+  }
+
+  table{
+    min-width:700px;
+  }
+
+  .modal{
+    width:95%;
+  }
+
+  .btn{
+    font-size:.72rem;
+    padding:7px 10px;
+  }
+
+  .sidebar-logo{
+    padding:16px;
+  }
+
+}
