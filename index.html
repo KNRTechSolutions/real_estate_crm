@@ -2397,3 +2397,147 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 
 }
+/* =========================================
+   KNR CRM — ULTRA MOBILE RESPONSIVE PATCH
+   (Add at very end of CSS)
+========================================= */
+
+/* Prevent horizontal scroll issues */
+html,body{
+  max-width:100%;
+  overflow-x:hidden;
+}
+
+/* App container mobile fix */
+@media (max-width:768px){
+
+  .app{
+    flex-direction:column;
+    height:auto;
+  }
+
+  .main{
+    height:auto;
+    overflow:visible;
+  }
+
+  .page-content{
+    overflow:visible;
+  }
+
+}
+
+/* Topbar mobile optimisation */
+@media (max-width:768px){
+
+  .topbar{
+    flex-wrap:wrap;
+    height:auto;
+    gap:8px;
+    padding:10px;
+  }
+
+  .topbar-actions{
+    width:100%;
+    justify-content:flex-end;
+  }
+
+}
+
+/* Cards full width */
+@media (max-width:768px){
+
+  .card{
+    padding:15px;
+  }
+
+}
+
+/* Stats grid proper stacking */
+@media (max-width:600px){
+
+  .stats-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+/* Tables super mobile scroll */
+@media (max-width:768px){
+
+  .scroll-x{
+    width:100%;
+    overflow-x:auto;
+  }
+
+  table{
+    min-width:900px;
+  }
+
+}
+
+/* Kanban mobile vertical */
+@media (max-width:768px){
+
+  .kanban-board{
+    flex-direction:column;
+  }
+
+  .kanban-col{
+    min-width:100%;
+    max-width:100%;
+  }
+
+}
+
+/* Forms mobile spacing */
+@media (max-width:768px){
+
+  .form-grid{
+    grid-template-columns:1fr !important;
+  }
+
+  .form-grid-3{
+    grid-template-columns:1fr !important;
+  }
+
+}
+
+/* Quick stats mobile */
+@media (max-width:768px){
+
+  .quick-stats{
+    flex-direction:column;
+  }
+
+}
+
+/* Modal mobile fit */
+@media (max-width:768px){
+
+  .modal{
+    width:96%;
+    max-height:92vh;
+  }
+
+}
+
+/* Buttons touch friendly */
+@media (max-width:480px){
+
+  .btn{
+    padding:8px 12px;
+    font-size:.75rem;
+  }
+
+}
+
+/* Sidebar scroll fix */
+.sidebar{
+  -webkit-overflow-scrolling:touch;
+}
+
+/* Page scroll smooth mobile */
+.page-content{
+  -webkit-overflow-scrolling:touch;
+}
